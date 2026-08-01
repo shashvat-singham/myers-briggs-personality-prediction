@@ -31,6 +31,9 @@
 		  <a class="nav-link" href="/analysis">Analysis</a>
 		</li>
 		<li class="nav-item">
+		  <a class="nav-link" href="/history">History</a>
+		</li>
+		<li class="nav-item">
 		  <a class="nav-link" href="/about">About</a>
 		</li>
 	  </ul>
@@ -71,10 +74,28 @@
 			<h2 style="text-align: center;">Type to predict</h2>
 			<br>
 				<div class="form-group">
-					<form class="form-inline my-2 my-lg-0" method="POST" action="/response">
-						<input class="form-control mr-md-2" type="text" name="fsnippet" placeholder="Please enter up to 160 characters" aria-label="Search" required>
+					<!-- Posts to /response without JavaScript; predictor.js upgrades it
+					     to a fetch against /api/v1/predict so the page never reloads. -->
+					<form class="form-inline my-2 my-lg-0" id="predict-form" method="POST" action="/response">
+						<input class="form-control mr-md-2" type="text" name="fsnippet" placeholder="Paste a forum post or a few sentences" aria-label="Text to analyse" maxlength="5000" required>
 						<button class="btn btn-outline-success my-2 my-sm-0" id="search_button" type="submit" value="Submit">Go!</button>
 					</form>
+				</div>
+
+				<!-- Filled in by predictor.js -->
+				<div class="alert alert-danger" id="prediction-error" role="alert" hidden></div>
+
+				<div id="prediction-result" hidden>
+					<div class="card">
+						<div class="card-header">Prediction</div>
+						<div class="card-body">
+							<p class="mb-1">You typed: <i id="prediction-snippet"></i></p>
+							<h3 class="card-title" id="prediction-type"></h3>
+							<ul class="list-unstyled" id="prediction-axes"></ul>
+							<p class="text-muted small" id="prediction-stored"></p>
+							<a class="btn btn-outline-success my-2 my-sm-0" id="prediction-link" href="https://www.16personalities.com/" rel="noopener">Read about this type</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -103,7 +124,9 @@
 </section>
   
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/script.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/app-config.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/predictor.js') }}"></script>
 
 </body>
 

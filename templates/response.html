@@ -31,6 +31,9 @@
 		  <a class="nav-link" href="/analysis">Analysis</a>
 		</li>
 		<li class="nav-item">
+		  <a class="nav-link" href="/history">History</a>
+		</li>
+		<li class="nav-item">
 		  <a class="nav-link" href="/about">About</a>
 		</li>
 	  </ul>
@@ -57,30 +60,80 @@
             <h2 style="text-align: center;">Predict some more?</h2>
             <br>
                 <div class="form-group">
-                    <form class="form-inline my-2 my-lg-0" method="POST" action="/response">
-                        <input class="form-control mr-md-2" type="text" name="fsnippet" placeholder="Please enter up to 160 characters" aria-label="Search" required>
+                    <form class="form-inline my-2 my-lg-0" id="predict-form" method="POST" action="/response">
+                        <input class="form-control mr-md-2" type="text" name="fsnippet" placeholder="Paste a forum post or a few sentences" aria-label="Text to analyse" maxlength="5000" required>
                         <button class="btn btn-outline-success my-2 my-sm-0" id="search_button" type="submit" value="Submit">Go!</button>
                     </form>
                 </div>
+
+                {% if error %}
+                <div class="alert alert-danger" role="alert">{{ error }}</div>
+                {% endif %}
+                <!-- Populated by predictor.js when JavaScript is available. -->
+                <div class="alert alert-danger" id="prediction-error" role="alert" hidden></div>
             </div>
         </div>
     </div>
 </section>
 <!-- </form> -->
 
-<!-- Prediction -->
+<!-- Prediction: server-rendered on a form POST. The closing conditional used to
+     sit inside the alert div, which left a stray empty alert on every GET. -->
 <section class="prediction">
 	<div class="container">
 		<div class="row">
 			<div class="col-12">
 				{% if name %}
 				<div class="alert alert-warning alert-dismissible fade show">
-					<h4 class="alert-heading"><i class="fa fa-warning"></i>You typed:</h4>
-					<i>"{{string}}"</i>
-					<hr>
-					<p class="mb-0">Your predicted personality type is:</p><strong>{{name}}</strong>
 					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<h4 class="alert-heading">You typed:</h4>
+					<i>"{{ string }}"</i>
+					<hr>
+					<p class="mb-0">Your predicted personality type is:</p>
+					<strong>{{ name }}</strong>
+
+					{% if axes %}
+					<hr>
+					<p class="mb-1">How each axis was decided:</p>
+					<ul class="list-unstyled mb-0">
+						{% for key in ['ei', 'sn', 'tf', 'jp'] %}
+						{% set axis = axes.get(key) %}
+						{% if axis %}
+						<li>
+							<strong>{{ axis.letter }}</strong>
+							{{ axis.name }}
+							{% if axis.probability is not none %}
+							&mdash; {{ (axis.probability * 100) | round(1) }}% probability
+							{% endif %}
+						</li>
+						{% endif %}
+						{% endfor %}
+					</ul>
 					{% endif %}
+
+					<hr>
+					<p class="text-muted small mb-0">
+						{% if latency_ms is not none %}Computed in {{ latency_ms }} ms.{% endif %}
+						{% if model_version %}Model {{ model_version }}.{% endif %}
+						{% if stored is defined %}
+						{% if stored %}Saved to Firestore.{% else %}Not saved: the database is unavailable.{% endif %}
+						{% endif %}
+					</p>
+				</div>
+				{% endif %}
+
+				<!-- Client-side result, used when predictor.js handles the submit. -->
+				<div id="prediction-result" hidden>
+					<div class="card">
+						<div class="card-header">Prediction</div>
+						<div class="card-body">
+							<p class="mb-1">You typed: <i id="prediction-snippet"></i></p>
+							<h3 class="card-title" id="prediction-type"></h3>
+							<ul class="list-unstyled" id="prediction-axes"></ul>
+							<p class="text-muted small" id="prediction-stored"></p>
+							<a class="btn btn-outline-success my-2 my-sm-0" id="prediction-link" href="https://www.16personalities.com/" rel="noopener">Read about this type</a>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -88,6 +141,7 @@
 </section>
 <!-- End of prediction -->
 
+{% if name %}
 <!-- Link to MB website -->
 <hr>
 <section>
@@ -97,18 +151,21 @@
 		Before you go:
 	</div>
 	<div class="card-body">
-	  <h5 class="card-title">Curious to know more about your {{name}} personality type?</h5>
+	  <h5 class="card-title">Curious to know more about your {{ name }} personality type?</h5>
 	  <p class="card-text">Check it out on the official MB Website:</p>
 	  <div style="text-align:center">
-	  	<a href="https://www.16personalities.com/{{name}}-personality" class="btn btn-outline-success my-2 my-sm-0">16personalities.com/{{name}}</a>
+	  	<a href="https://www.16personalities.com/{{ name | lower }}-personality" class="btn btn-outline-success my-2 my-sm-0" rel="noopener">16personalities.com/{{ name | lower }}</a>
 	  </div>
 	</div>
   </div>
   </div>
 </section>
+{% endif %}
   
 
-<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/script.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/app-config.js') }}"></script>
+<script src="{{ url_for('static', filename='javascript/predictor.js') }}"></script>
 
 </body>
 

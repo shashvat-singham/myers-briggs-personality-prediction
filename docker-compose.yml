@@ -1,0 +1,59 @@
+# Local stack: the backend plus a Firestore emulator, so development never
+# touches the real mbpp-7347c database (and never burns Spark-plan quota).
+#
+#   docker compose up --build
+#   open http://localhost:8080  /  emulator UI-less API on :8088
+#
+# To run against real Firestore instead, drop the firestore service, remove
+# FIRESTORE_EMULATOR_HOST and mount a service-account key (see DEPLOYMENT.md).
+
+services:
+  app:
+    build:
+      context: .
+      target: runtime
+    image: mbpp-backend:local
+    ports:
+      - "8080:8080"
+    environment:
+      APP_ENV: development
+      PORT: "8080"
+      SECRET_KEY: local-development-secret
+      LOG_JSON: "false"
+      LOG_LEVEL: DEBUG
+      WEB_CONCURRENCY: "1"
+      # Point firebase-admin at the emulator. Any project id works.
+      FIRESTORE_ENABLED: "true"
+      FIREBASE_PROJECT_ID: demo-mbpp
+      FIRESTORE_EMULATOR_HOST: firestore:8088
+      IP_HASH_SALT: local-salt-not-secret
+      PREDICTION_TTL_DAYS: "7"
+      RATE_LIMIT_REQUESTS: "120"
+      CORS_ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:8888"
+    depends_on:
+      firestore:
+        condition: service_started
+    restart: unless-stopped
+    # The container needs no write access to its own filesystem; /dev/shm is
+    # where gunicorn keeps its heartbeat file.
+    read_only: true
+    tmpfs:
+      - /dev/shm:size=64m
+    security_opt:
+      - no-new-privileges:true
+    deploy:
+      resources:
+        limits:
+          # Four sklearn pipelines resident per worker; below ~1 GB the OOM
+          # killer starts winning.
+          memory: 1500M
+
+  firestore:
+    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
+    command: >
+      gcloud emulators firestore start
+      --host-port=0.0.0.0:8088
+      --database-mode=firestore-native
+    ports:
+      - "8088:8088"
+    restart: unless-stopped

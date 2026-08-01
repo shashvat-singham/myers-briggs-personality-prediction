@@ -1,0 +1,58 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+	<title> Myers briggs personality prediction | {{ status_code or 'Error' }} </title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/stylesheet.css') }}">
+</head>
+
+<body>
+<nav class="navbar fixed-top navbar-expand-lg navbar-light">
+	<a class="navbar-brand" href="/">MB|PREDICTOR</a>
+	<div class="collapse navbar-collapse" id="navbarNavDropdown">
+	  <ul class="navbar-nav ml-auto">
+		<li class="nav-item"><a class="nav-link" href="/methodology">Methodology</a></li>
+		<li class="nav-item"><a class="nav-link" href="/analysis">Analysis</a></li>
+		<li class="nav-item"><a class="nav-link" href="/history">History</a></li>
+		<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+	  </ul>
+	</div>
+</nav>
+
+<section class="bgimage">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-12">
+				<h1 class="font-weight-light">{{ status_code or 'Something went wrong' }}</h1>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class="basic-white">
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<hr/>
+				<!-- Deliberately generic: internal error detail stays in the logs,
+				     keyed by the request id echoed in the X-Request-ID header. -->
+				<p>{{ message or 'The page you asked for is not available.' }}</p>
+				<a class="btn btn-outline-success my-2 my-sm-0" href="/">Back to the predictor</a>
+			</div>
+		</div>
+	</div>
+</section>
+
+</body>
+
+<footer class="page-footer font-small blue">
+	<div class="footer-copyright text-center py-3">© 2020 Copyright:
+	  <a href="/">UT Data Bootcamp</a>
+	</div>
+</footer>
+
+</html>

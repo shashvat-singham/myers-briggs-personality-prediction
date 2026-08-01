@@ -1,0 +1,81 @@
+# Netlify configuration.
+#
+# What Netlify can and cannot do for this project
+# -----------------------------------------------
+# Netlify serves the static frontend. It cannot run the predictor: Netlify
+# Functions support JavaScript/TypeScript and Go, not Python, and the runtime
+# here needs scikit-learn, scipy, NLTK corpora and 24 MB of joblib artifacts --
+# far past the serverless bundle limits even if Python were available.
+#
+# So the split is:
+#   Netlify  -> HTML/CSS/JS/images (this file's `publish` directory)
+#   Container -> Flask + models + Firestore (Dockerfile, e.g. on Cloud Run)
+#   Firestore -> the database
+#
+# The `/api/*` rewrite below proxies API calls to the backend, so the browser
+# only ever talks to the Netlify origin: no CORS preflights, no mixed-origin
+# cookies, and the backend URL can change without touching the frontend.
+#
+# Set BACKEND_URL in Site settings -> Environment variables, e.g.
+#   BACKEND_URL = https://mbpp-backend-xxxxxxx-uc.a.run.app
+# The build substitutes it into _redirects (see tools/build_static.py), because
+# netlify.toml itself does not expand env vars in `to` targets.
+
+[build]
+  # jinja2 is the only build dependency (the same templates render server-side).
+  # Netlify may also auto-install the root requirements.txt because it detects a
+  # Python project -- harmless, just slow; the pins there are cp38-compatible.
+  command = "pip install -q jinja2==3.1.4 && python tools/build_static.py"
+  publish = "dist"
+
+[build.environment]
+  PYTHON_VERSION = "3.8"
+
+# Predictions post to /response on the no-JavaScript path; keep it working by
+# proxying that too. Status 200 makes these rewrites (proxy) rather than
+# redirects, so the browser URL stays on the Netlify domain.
+[[redirects]]
+  from = "/api/*"
+  to = "https://BACKEND_URL_PLACEHOLDER/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/response"
+  to = "https://BACKEND_URL_PLACEHOLDER/response"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/healthz"
+  to = "https://BACKEND_URL_PLACEHOLDER/healthz"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Mirrors mbpp/__init__.py:DEFAULT_CSP. connect-src stays 'self' because
+    # API traffic goes through the proxy above.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://code.jquery.com https://cdn.jsdelivr.net https://stackpath.bootstrapcdn.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://stackpath.bootstrapcdn.com https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https:"
+
+# Fingerprint-free asset paths, so cache aggressively but allow revalidation.
+[[headers]]
+  for = "/static/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800, must-revalidate"
+
+[[headers]]
+  for = "/static/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"
+
+[[headers]]
+  for = "/static/javascript/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400, must-revalidate"

@@ -1,0 +1,59 @@
+# Keep the build context small and secrets out of the image.
+.git
+.gitignore
+.github
+
+# Notebooks, training data and duplicated model copies (~100 MB, unused at serve time)
+final_notebooks/
+individual_work/
+project_documents/
+data/
+*.ipynb
+*.csv
+
+# Local env / secrets -- must never be baked into a layer
+.env
+.env.*
+!.env.example
+*serviceAccount*.json
+*service-account*.json
+*.pem
+*.key
+
+# Python cruft
+__pycache__/
+**/__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+
+# Tooling / docs not needed at runtime
+tests/
+tools/
+dist/
+netlify/
+.netlify/
+Pipfile
+Pipfile.lock
+docker-compose.yml
+Dockerfile
+README.md
+DEPLOYMENT.md
+LICENSE
+*.postman_collection.json
+firebase.json
+firestore.rules
+firestore.indexes.json
+.firebaserc
+netlify.toml
+
+# OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

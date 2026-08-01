@@ -1,46 +1,29 @@
-from flask import Flask, request, jsonify, render_template
-from predict import predict
+"""Development entry point and backwards-compatible `app:app` target.
 
-app = Flask(__name__)
+Routes and wiring now live in the `mbpp` package (see mbpp/__init__.py).
+Production uses `gunicorn wsgi:application`; this file keeps `python app.py`
+working for local runs.
+"""
+import os
 
-###############################################################################
-#                       SETTING UP APP ROUTES                                 #
-###############################################################################
+try:
+    from dotenv import load_dotenv
 
+    load_dotenv()
+except ImportError:  # pragma: no cover
+    pass
 
-@app.route("/")
-def index():
-    return render_template("index.html")
-
-
-@app.route("/response", methods=["GET", "POST"])
-def response():
-
-    if request.method == "POST":
-        snippet = request.form["fsnippet"]
-        # Testing with predict.py
-        personality_type = predict(snippet)
-    return render_template("response.html", name=personality_type, string=snippet)
-
-
-@app.route("/analysis")
-def analysis():
-    return render_template("analysis.html")
-
-
-@app.route("/methodology")
-def methodology():
-    return render_template("methodology.html")
-
-
-@app.route("/about")
-def about():
-    return render_template("about.html")
-
-
-###############################################################################
-#                                   MAIN                                      #
-###############################################################################
+from mbpp import create_app
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Local runs default to the development config so a missing SECRET_KEY
+    # doesn't stop you; production is strict about it on purpose.
+    os.environ.setdefault("APP_ENV", "development")
+    app = create_app()
+    app.run(
+        host=os.environ.get("HOST", "127.0.0.1"),
+        port=int(os.environ.get("PORT", 5000)),
+        debug=app.config.get("DEBUG", False),
+    )
+else:
+    app = create_app()

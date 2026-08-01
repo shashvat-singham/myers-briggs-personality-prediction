@@ -1,0 +1,24 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "predictions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "personality_type", "order": "ASCENDING" },
+        { "fieldPath": "created_at", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "predictions",
+      "fieldPath": "text",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "predictions",
+      "fieldPath": "user_agent",
+      "indexes": []
+    }
+  ]
+}

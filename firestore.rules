@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// Security model: this database is written and read exclusively by the Flask
+// backend through the Firebase Admin SDK, which authenticates as a service
+// account and therefore bypasses these rules entirely. Everything a browser
+// could reach is denied.
+//
+// Why deny-all is the right posture here and not just laziness:
+//   * Predictions contain user-submitted text and a salted IP hash. No client
+//     has any business enumerating them -- the site reads history through the
+//     backend's /api/v1/predictions endpoint, which returns an allow-listed
+//     projection of each document.
+//   * The /stats/global counters are maintained with atomic increments. Client
+//     write access would let anyone forge the numbers.
+//
+// If you later add a Firebase-authenticated per-user history, add a rule scoped
+// to `request.auth.uid` rather than opening the collections wholesale.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    match /predictions/{document} {
+      allow read, write: if false;
+    }
+
+    match /stats/{document} {
+      allow read, write: if false;
+    }
+
+    // Catch-all: a new collection is locked down until someone writes a rule
+    // for it on purpose.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

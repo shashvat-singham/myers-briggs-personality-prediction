@@ -2,92 +2,226 @@
 	"info": {
 		"_postman_id": "c80d3ff5-e572-4643-a9d7-d4b9230c70fb",
 		"name": "mb_predictor",
+		"description": "Myers-Briggs predictor API.\n\nSet the `baseUrl` collection variable to whichever origin you are testing:\n  - local:   http://127.0.0.1:5000\n  - docker:  http://localhost:8080\n  - Netlify: https://shashvat-mbti.netlify.app  (proxies /api/* to the backend)\n  - backend: https://<your-backend-url>\n\nEvery response carries an X-Request-ID header; quote it when reporting a failure.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	],
 	"item": [
 		{
-			"name": "https://mb-predictor-motetuzs5q-uc.a.run.app/",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://mb-predictor-motetuzs5q-uc.a.run.app/",
-					"protocol": "https",
-					"host": [
-						"mb-predictor-motetuzs5q-uc",
-						"a",
-						"run",
-						"app"
-					],
-					"path": [
-						""
-					]
+			"name": "API",
+			"item": [
+				{
+					"name": "POST /api/v1/predict",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"That somehow managed to be record short yet answer almost all the questions we would have asked, haha! Welcome, nice to meet you.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/predict",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "predict"]
+						},
+						"description": "Returns the predicted type, per-axis probabilities, the model version and the Firestore document id (null when storage is unavailable)."
+					},
+					"response": []
+				},
+				{
+					"name": "POST /api/v1/predict (validation error)",
+					"request": {
+						"method": "POST",
+						"header": [
+							{ "key": "Content-Type", "value": "application/json" }
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"text\": \"x\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/predict",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "predict"]
+						},
+						"description": "Expect 400 with error.code = validation_error and details naming the failing field."
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/v1/predictions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/predictions?limit=20",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "predictions"],
+							"query": [
+								{ "key": "limit", "value": "20" },
+								{ "key": "type", "value": "INFP", "disabled": true }
+							]
+						},
+						"description": "Recent predictions from Firestore, newest first. The `type` filter needs the composite index in firestore.indexes.json."
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/v1/stats",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/stats",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "stats"]
+						},
+						"description": "Aggregate counters from stats/global -- one document read regardless of history size."
+					},
+					"response": []
+				},
+				{
+					"name": "GET /api/v1/meta",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/meta",
+							"host": ["{{baseUrl}}"],
+							"path": ["api", "v1", "meta"]
+						},
+						"description": "App version, model version and the configured request limits."
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "https://mb-predictor-motetuzs5q-uc.a.run.app/analysis",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://mb-predictor-motetuzs5q-uc.a.run.app/analysis",
-					"protocol": "https",
-					"host": [
-						"mb-predictor-motetuzs5q-uc",
-						"a",
-						"run",
-						"app"
-					],
-					"path": [
-						"analysis"
-					]
+			"name": "Probes",
+			"item": [
+				{
+					"name": "GET /healthz",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/healthz",
+							"host": ["{{baseUrl}}"],
+							"path": ["healthz"]
+						},
+						"description": "Liveness. Checks nothing external on purpose."
+					},
+					"response": []
+				},
+				{
+					"name": "GET /readyz",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/readyz",
+							"host": ["{{baseUrl}}"],
+							"path": ["readyz"]
+						},
+						"description": "Readiness: models loaded, NLTK corpora present, Firestore reachable. 503 when models or corpora are missing; a Firestore outage is reported but stays 200."
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "https://mb-predictor-motetuzs5q-uc.a.run.app/methodology",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://mb-predictor-motetuzs5q-uc.a.run.app/methodology",
-					"protocol": "https",
-					"host": [
-						"mb-predictor-motetuzs5q-uc",
-						"a",
-						"run",
-						"app"
-					],
-					"path": [
-						"methodology"
-					]
+			"name": "Pages",
+			"item": [
+				{
+					"name": "GET /",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": { "raw": "{{baseUrl}}/", "host": ["{{baseUrl}}"], "path": [""] }
+					},
+					"response": []
+				},
+				{
+					"name": "POST /response (form)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{ "key": "fsnippet", "value": "Welcome, nice to meet you!", "type": "text" }
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/response",
+							"host": ["{{baseUrl}}"],
+							"path": ["response"]
+						},
+						"description": "The no-JavaScript path used by the HTML form."
+					},
+					"response": []
+				},
+				{
+					"name": "GET /history",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/history",
+							"host": ["{{baseUrl}}"],
+							"path": ["history"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /analysis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/analysis",
+							"host": ["{{baseUrl}}"],
+							"path": ["analysis"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /methodology",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/methodology",
+							"host": ["{{baseUrl}}"],
+							"path": ["methodology"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET /about",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/about",
+							"host": ["{{baseUrl}}"],
+							"path": ["about"]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "https://mb-predictor-motetuzs5q-uc.a.run.app/about",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "https://mb-predictor-motetuzs5q-uc.a.run.app/about",
-					"protocol": "https",
-					"host": [
-						"mb-predictor-motetuzs5q-uc",
-						"a",
-						"run",
-						"app"
-					],
-					"path": [
-						"about"
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
 	"protocolProfileBehavior": {}

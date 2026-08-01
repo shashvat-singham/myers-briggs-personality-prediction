@@ -18,7 +18,106 @@ You can visit my this project deployed site: https://shashvat-mbti.netlify.app/
 *   Data Analysis - Pandas | Numpy | Matplotlib
 *   APP – Flask | Python
 *   Templates – HTML | CSS | Bootstrap
-*   Deployment - GCP (Google Cloud Platform) | Docker
+*   Database – Cloud Firestore (Firebase project `mbpp-7347c`)
+*   Deployment - Netlify (frontend) | Docker container on Cloud Run (backend) | GCP
+
+---
+
+## Architecture
+
+```
+   browser ──► Netlify (static frontend, /api/* proxy)
+                     │
+                     ▼
+        Docker container: Flask + gunicorn + 4 sklearn pipelines
+                     │  Firebase Admin SDK
+                     ▼
+        Cloud Firestore  ·  predictions/  ·  stats/global
+```
+
+Netlify serves the frontend and rewrites `/api/*` to the container, so the
+browser only talks to the Netlify origin. Netlify cannot host the predictor
+itself — its Functions runtime is JavaScript/Go, and the model stack needs
+scikit-learn, scipy, NLTK corpora and 24 MB of joblib artifacts. Firestore is
+reached only by the backend; no Firebase credentials are exposed to the browser
+and `firestore.rules` denies all direct client access.
+
+Full deployment instructions, including Firestore setup, TTL policy, Cloud Run
+flags and Netlify build settings, are in [DEPLOYMENT.md](DEPLOYMENT.md).
+
+### Layout
+
+| Path | What it is |
+| --- | --- |
+| `mbpp/__init__.py` | app factory: config, logging, proxy trust, security headers, CORS, hooks |
+| `mbpp/config.py` | env-driven config, strict validation in production |
+| `mbpp/firestore_repo.py` | Firestore persistence: batched writes, atomic counters, graceful degradation |
+| `mbpp/predictor.py` | model loading (once per process) and per-axis probabilities |
+| `mbpp/preprocess.py` | feature engineering, unchanged in behaviour from training |
+| `mbpp/service.py` | validation + predict + persist, shared by both entry points |
+| `mbpp/routes/` | `web` (HTML), `api` (JSON, `/api/v1`), `health` (probes) |
+| `tools/build_static.py` | renders the same templates into `dist/` for Netlify |
+| `firestore.rules`, `firestore.indexes.json` | database security rules and indexes |
+| `Dockerfile`, `docker-compose.yml` | production image; local stack with the Firestore emulator |
+
+### API
+
+| Endpoint | Purpose |
+| --- | --- |
+| `POST /api/v1/predict` | `{"text": "..."}` → type, per-axis probabilities, document id |
+| `GET /api/v1/predictions` | recent predictions (`?limit=20&type=INFP`) |
+| `GET /api/v1/stats` | aggregate counts (one document read) |
+| `GET /api/v1/meta` | app version, model version, request limits |
+| `GET /healthz`, `GET /readyz` | liveness / readiness probes |
+
+Errors are JSON with a stable `error.code`, and every response carries
+`X-Request-ID` for log correlation. The Postman collection covers all of it.
+
+---
+
+## Running it
+
+### Local (Docker, with the Firestore emulator)
+
+```bash
+docker compose up --build
+curl -s -X POST localhost:8080/api/v1/predict \
+     -H 'Content-Type: application/json' \
+     -d '{"text":"welcome, nice to meet you"}'
+```
+
+Compose runs against the emulator, so local development never touches the real
+database.
+
+### Local (no Docker)
+
+Requires Python 3.8 — `models/*.joblib` were serialised with scikit-learn 0.23.0
+and cannot be loaded by newer versions (see the note in `requirements.txt` and
+"Modernising the ML stack" in DEPLOYMENT.md).
+
+```bash
+python -m venv .venv && . .venv/bin/activate
+pip install -r requirements-dev.txt
+python -m nltk.downloader punkt stopwords wordnet omw-1.4 averaged_perceptron_tagger
+cp .env.example .env          # then fill in what you need
+python app.py                 # http://127.0.0.1:5000
+```
+
+### Tests
+
+```bash
+pytest
+```
+
+The suite stubs the predictor, so it runs on any modern Python without the
+pinned ML stack: it covers the HTTP contract, input validation, persistence
+wiring, degraded-Firestore behaviour, rate limiting and the Netlify build.
+
+### Configuration
+
+Every knob is an environment variable, documented in
+[.env.example](.env.example). Production refuses to start without `SECRET_KEY`
+and `FIREBASE_PROJECT_ID` rather than falling back to insecure defaults.
 
 ## Methodology
 1.  **Class Imbalance:** To examine the proportionality of each of the sixteen personality types, Matplotlib was used to plot the value counts of each of these sixteen types. Since the classes were heavily imbalanced, following steps were taken:

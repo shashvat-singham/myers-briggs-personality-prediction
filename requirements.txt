@@ -1,0 +1,34 @@
+# Production runtime. Fully pinned: the image must be byte-reproducible.
+#
+# IMPORTANT -- the ML pins are not arbitrary. models/*.joblib were serialised
+# with scikit-learn 0.23.0 (verifiable: the pickles carry _sklearn_version).
+# Unpickling them under a modern scikit-learn fails, because ColumnTransformer's
+# internal attributes changed in 1.0. scikit-learn 0.23.2 is the newest release
+# that both loads these artifacts and ships a manylinux wheel, and its newest
+# supported interpreter is CPython 3.8 -- hence python:3.8-slim in the
+# Dockerfile. Retraining the four classifiers is the only way off this floor;
+# see DEPLOYMENT.md ("Modernising the ML stack").
+scikit-learn==0.23.2
+imbalanced-learn==0.7.0
+joblib==1.3.2
+numpy==1.24.4
+scipy==1.10.1
+pandas==1.5.3
+nltk==3.8.1
+vaderSentiment==3.3.2
+
+# Web layer
+Flask==2.2.5
+Werkzeug==2.2.3
+Jinja2==3.1.4
+itsdangerous==2.1.2
+click==8.1.7
+MarkupSafe==2.1.5
+gunicorn==21.2.0
+
+# Firestore
+firebase-admin==6.5.0
+google-cloud-firestore==2.16.1
+
+# Config
+python-dotenv==1.0.1

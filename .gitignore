@@ -1,18 +1,67 @@
-# Build and Release Folders
+# --- secrets: never commit -------------------------------------------------
+.env
+.env.*
+!.env.example
+# Firebase service-account keys, in every name they usually turn up as
+*serviceAccount*.json
+*service-account*.json
+*firebase-adminsdk*.json
+*.pem
+*.key
+*.p12
+
+# --- local tooling / agent state -------------------------------------------
+.claude/
+.claude*
+CLAUDE.md
+
+# --- dependencies ----------------------------------------------------------
+node_modules/
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# --- build output ----------------------------------------------------------
+dist/
+build/
+.netlify/
+*.egg-info/
+
+# --- python cruft ----------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# --- emulator / logs -------------------------------------------------------
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.firebase/
+*.log
+
+# --- editors / OS ----------------------------------------------------------
+.vscode/
+.idea/
+.settings/
+.DS_Store
+Thumbs.db
+
+# --- legacy build folders (kept from the original project) -----------------
 bin-debug/
 bin-release/
 [Oo]bj/
 [Bb]in/
-
-# Other files and folders
-.settings/
-
-# Executables
 *.swf
 *.air
 *.ipa
 *.apk
-
-# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
-# should NOT be excluded as they contain compiler settings and other important
-# information for Eclipse / Flash Builder.
