@@ -18,8 +18,8 @@
                                                        |  Admin SDK
                                                        v
                                         +------------------------------+
-                                        |  Cloud Firestore (mbpp-7347c)|
-                                        |  predictions/, stats/global  |
+                                        | Realtime Database (mbpp-7347c)|
+                                        | /predictions, /stats          |
                                         +------------------------------+
 ```
 
@@ -31,63 +31,91 @@ a container, and Netlify rewrites `/api/*` to it. The browser only ever sees the
 Netlify origin, which means no CORS preflights and no backend URL baked into the
 HTML.
 
-**Where the database sits.** Firestore is written and read only by the backend
-through the Firebase Admin SDK. No Firebase credentials or SDK reach the
-browser, and `firestore.rules` denies all direct client access.
+**Where the database sits.** The Realtime Database is written and read only by
+the backend through the Firebase Admin SDK. No Firebase credentials or SDK reach
+the browser, and `database.rules.json` denies all direct client access.
+
+**Two backends exist.** `DATABASE_BACKEND=rtdb` (the default) uses the Realtime
+Database, which is what this project has provisioned. `DATABASE_BACKEND=firestore`
+switches to Cloud Firestore — same interface, different rules file. Everything
+above `mbpp/repository.py` is unaware of which is active.
 
 ---
 
-## 1. Firestore
+## 1. Realtime Database
 
-The project (`mbpp-7347c`) is already on the Spark plan, which includes
-Firestore. Create the database once, then push rules and indexes:
+The project (`mbpp-7347c`) is on the Spark plan, which includes the Realtime
+Database. The instance already exists at
+`https://mbpp-7347c-default-rtdb.firebaseio.com`; push the rules:
 
 ```bash
 npm install -g firebase-tools
 firebase login
 
-# One-time: create the database in Native mode, in a region near the backend.
-gcloud firestore databases create --location=nam5 --project=mbpp-7347c
-
-firebase deploy --only firestore --project mbpp-7347c
+firebase deploy --only database --project mbpp-7347c
 ```
 
-`firebase.json`, `firestore.rules` and `firestore.indexes.json` carry no
-comments on purpose — both the CLI and the Firestore Admin API validate those
-schemas and reject unknown keys, so the explanations live here instead:
+### Data layout
 
-- **`firestore.rules` denies everything.** The backend uses the Admin SDK, which
-  bypasses rules entirely, so no rule is needed for it to work — and any rule
-  permissive enough for a browser would expose user-submitted text and let
-  anyone forge the `stats/global` counters. History reaches the UI through
-  `/api/v1/predictions`, which returns an allow-listed projection of each
-  document (no IP hash, no user agent).
-- **The one composite index** covers `?type=INFP`, which filters on
-  `personality_type` and orders by `created_at` — Firestore rejects that
-  combination without it. The unfiltered ordering uses the automatic
-  single-field index.
-- **`fieldOverrides` exempt `text` and `user_agent` from indexing.** Neither is
-  ever queried, so indexing them only costs an index write per document and
-  risks the index-entry size limit on long snippets.
+```
+predictions/
+  -NxAbC1234...            <- push key: chronologically sortable
+    text, text_sha256, text_length, truncated,
+    personality_type, axes/{ei,sn,tf,jp},
+    model_version, latency_ms, source, request_id,
+    client_ip_hash, user_agent,
+    created_at             <- ServerValue.TIMESTAMP (ms)
+    expires_at             <- ms, absent when TTL is off
+stats/
+  total                    <- int
+  types/{TYPE}             <- int per MBTI type
+  updated_at               <- ms
+```
 
-### Retention (TTL)
+`database.rules.json` carries no comments because the CLI validates the schema,
+so the reasoning lives here:
 
-`PREDICTION_TTL_DAYS` stamps each document with `expires_at`. Firestore only
-acts on it once a TTL policy exists — the field alone does nothing:
+- **Everything is denied.** The backend uses the Admin SDK, which bypasses rules
+  entirely, so no rule is needed for it to work — and any rule permissive enough
+  for a browser would expose user-submitted text and let anyone forge the
+  counters. History reaches the UI through `/api/v1/predictions`, which returns
+  an allow-listed projection (no IP hash, no user agent).
+- **`.indexOn: ["personality_type", "created_at"]`** backs the `?type=INFP`
+  filter and the prune script's range query. Without it RTDB still answers, but
+  by downloading the node and filtering in the client — with a warning in the
+  logs and a bill to match.
+
+### Three RTDB-specific behaviours
+
+1. **History sorts by push key, not by a timestamp.** Firebase push keys embed
+   their creation time and sort lexicographically, so `order_by_key()
+   .limit_to_last(n)` is exactly "the n newest" — no index, no extra field. RTDB
+   cannot sort descending, so the bounded slice is reversed in Python.
+2. **Counters use a transaction.** The Python Admin SDK does not expose the
+   `increment` server value, so `/stats` is updated with a compare-and-set
+   transaction. That is a second round trip after the push: if it fails, the
+   prediction is still stored and only the totals go stale (logged as
+   `stats_update_failed`). `tools/rebuild_stats.py` repairs them.
+3. **There is no TTL.** Firestore expires documents server-side; RTDB has no such
+   feature, so `expires_at` is advisory and deletion is your job:
 
 ```bash
-gcloud firestore fields ttls update expires_at \
-  --collection-group=predictions \
-  --enable-ttl \
-  --project=mbpp-7347c
+python tools/prune_predictions.py --dry-run     # report what would go
+python tools/prune_predictions.py               # delete, honouring PREDICTION_TTL_DAYS
+python tools/rebuild_stats.py                   # realign counters after pruning
 ```
+
+Schedule the prune (Cloud Scheduler, GitHub Actions cron, host crontab).
+Unpruned, history grows until the 1 GB free-tier ceiling, and every `/history`
+read pays for a bigger tree.
 
 ### Free-tier budget
 
-Each prediction costs **2 writes** (the document plus the aggregate counter,
-batched into one RPC). Spark allows 20k writes/day, so roughly 10k predictions
-per day. `/api/v1/stats` is one read regardless of history size, because counts
-come from `stats/global` instead of a scan.
+Each prediction costs one `push` plus one counter transaction. Spark's limits are
+1 GB stored and 10 GB/month downloaded, with 100 simultaneous connections — the
+Admin SDK uses the REST interface, so a request is not a persistent connection
+and that last limit is not in play. `/api/v1/stats` reads a single small node
+regardless of history size, and `/history` reads only the newest N records.
 
 ---
 
@@ -96,21 +124,31 @@ come from `stats/global` instead of a scan.
 ### Build and run locally
 
 ```bash
-docker compose up --build          # app on :8080, Firestore emulator on :8088
-curl -s localhost:8080/readyz | jq
+docker compose up --build          # app on :8080
+curl -s localhost:8080/readyz | jq '.checks.database'
 curl -s -X POST localhost:8080/api/v1/predict \
      -H 'Content-Type: application/json' \
-     -d '{"text":"welcome, nice to meet you"}' | jq
+     -d '{"text":"welcome, nice to meet you"}' | jq '{personality_type, stored, id}'
 ```
 
-Compose points the app at the emulator, so local runs never touch the real
-database or consume quota.
+`"stored": true` means the write reached the database. Compose defaults to the
+real RTDB instance and needs credentials; to avoid touching production data (and
+Spark quota), run the emulator on the host and uncomment
+`FIREBASE_DATABASE_EMULATOR_HOST` in docker-compose.yml:
+
+```bash
+firebase emulators:start --only database    # :9000, plus a UI on :4000
+```
+
+Unlike Firestore, the RTDB emulator has no standalone container image — it ships
+inside firebase-tools and needs a JRE — which is why it runs on the host rather
+than as a compose service.
 
 ### Deploy to Cloud Run
 
 Cloud Run is the natural target — the same project, Application Default
 Credentials with no key file, and scale-to-zero. **It requires the Blaze plan**
-(Spark covers Firestore but not Cloud Run); Fly.io, Render or any container host
+(Spark covers the Realtime Database but not Cloud Run); Fly.io, Render or any container host
 works identically, only the credential step differs.
 
 ```bash
@@ -123,11 +161,14 @@ gcloud artifacts repositories create mbpp --repository-format=docker \
 gcloud builds submit --project=$PROJECT \
   --tag $REGION-docker.pkg.dev/$PROJECT/mbpp/backend:$(git rev-parse --short HEAD)
 
-# A dedicated service account with only the Firestore role it needs.
+# A dedicated service account with only the database role it needs.
+# NOTE: the Realtime Database and Firestore use different roles --
+# firebasedatabase.admin for RTDB, datastore.user for Firestore. Granting the
+# Firestore role to an RTDB backend produces permission errors on every write.
 gcloud iam service-accounts create mbpp-backend --project=$PROJECT
 gcloud projects add-iam-policy-binding $PROJECT \
   --member=serviceAccount:mbpp-backend@$PROJECT.iam.gserviceaccount.com \
-  --role=roles/datastore.user
+  --role=roles/firebasedatabase.admin
 
 gcloud run deploy mbpp-backend \
   --project=$PROJECT --region=$REGION \
@@ -136,7 +177,7 @@ gcloud run deploy mbpp-backend \
   --allow-unauthenticated \
   --memory=2Gi --cpu=2 --concurrency=8 --min-instances=0 --max-instances=4 \
   --timeout=120 \
-  --set-env-vars=APP_ENV=production,FIREBASE_PROJECT_ID=$PROJECT,TRUSTED_PROXY_COUNT=2,LOG_JSON=true \
+  --set-env-vars=APP_ENV=production,FIREBASE_PROJECT_ID=$PROJECT,DATABASE_BACKEND=rtdb,FIREBASE_DATABASE_URL=https://mbpp-7347c-default-rtdb.firebaseio.com,TRUSTED_PROXY_COUNT=2,LOG_JSON=true \
   --set-secrets=SECRET_KEY=mbpp-secret-key:latest,IP_HASH_SALT=mbpp-ip-salt:latest
 ```
 
@@ -211,9 +252,9 @@ warning and writes a `_redirects` file that says so.
 
 | Concern | Where |
 | --- | --- |
-| Liveness | `GET /healthz` — no external checks, so a Firestore blip cannot trigger a restart loop |
-| Readiness | `GET /readyz` — models + NLTK corpora gate the verdict; Firestore is reported but non-fatal |
-| Deployed version | `GET /api/v1/meta` — app version, content-hashed model version |
+| Liveness | `GET /healthz` — no external checks, so a database blip cannot trigger a restart loop |
+| Readiness | `GET /readyz` — models + NLTK corpora gate the verdict; the database is reported (with its backend name) but non-fatal |
+| Deployed version | `GET /api/v1/meta` — app version, content-hashed model version, active database backend |
 | Logs | one JSON line per request (`LOG_JSON=true`): status, `duration_ms`, `request_id` |
 | Tracing a report | `X-Request-ID` on every response; honours an inbound value |
 | Rate limits | `X-RateLimit-*` headers; 429 with `Retry-After` |
@@ -226,8 +267,10 @@ resource.type="cloud_run_revision" jsonPayload.message="prediction_save_failed"
 resource.type="cloud_run_revision" jsonPayload.severity="ERROR"
 ```
 
-`prediction_save_failed` is the signal that Firestore is degrading while
-predictions still succeed — worth an alert, since nothing else surfaces it.
+`prediction_save_failed` is the signal that the database is degrading while
+predictions still succeed — worth an alert, since nothing else surfaces it (the
+API returns 200 with `"stored": false`). `stats_update_failed` means the record
+landed but the counters did not; `tools/rebuild_stats.py` fixes those.
 
 ### Rate limiting is per worker
 

@@ -1,11 +1,25 @@
-# Local stack: the backend plus a Firestore emulator, so development never
-# touches the real mbpp-7347c database (and never burns Spark-plan quota).
+# Local stack for the backend.
 #
-#   docker compose up --build
-#   open http://localhost:8080  /  emulator UI-less API on :8088
+#   docker compose up --build      ->  http://localhost:8080
 #
-# To run against real Firestore instead, drop the firestore service, remove
-# FIRESTORE_EMULATOR_HOST and mount a service-account key (see DEPLOYMENT.md).
+# Talking to a database locally, pick one:
+#
+# 1. The real Realtime Database (simplest). Mount a service-account key and
+#    point FIREBASE_DATABASE_URL at mbpp-7347c. Writes count against the Spark
+#    quota and land in the same tree production uses, so prefer option 2 for
+#    anything repetitive.
+#
+# 2. The Realtime Database emulator (no quota, no shared data). Unlike the
+#    Firestore emulator there is no standalone container image for it -- it
+#    ships inside firebase-tools and needs a JRE -- so run it on the host:
+#
+#      firebase emulators:start --only database        # listens on :9000
+#
+#    then uncomment FIREBASE_DATABASE_EMULATOR_HOST below. host.docker.internal
+#    is mapped explicitly so this works on Linux as well as macOS/Windows.
+#
+# 3. No database at all: set DATABASE_ENABLED=false. Predictions still work and
+#    report "stored": false.
 
 services:
   app:
@@ -22,17 +36,25 @@ services:
       LOG_JSON: "false"
       LOG_LEVEL: DEBUG
       WEB_CONCURRENCY: "1"
-      # Point firebase-admin at the emulator. Any project id works.
-      FIRESTORE_ENABLED: "true"
-      FIREBASE_PROJECT_ID: demo-mbpp
-      FIRESTORE_EMULATOR_HOST: firestore:8088
+
+      DATABASE_ENABLED: "true"
+      DATABASE_BACKEND: rtdb
+      FIREBASE_PROJECT_ID: mbpp-7347c
+      FIREBASE_DATABASE_URL: https://mbpp-7347c-default-rtdb.firebaseio.com
+      # Option 2: uncomment to use the host's emulator instead of the real database.
+      # FIREBASE_DATABASE_EMULATOR_HOST: host.docker.internal:9000
+      # Option 1: uncomment together with the volume mount below.
+      # GOOGLE_APPLICATION_CREDENTIALS: /secrets/service-account.json
+
       IP_HASH_SALT: local-salt-not-secret
       PREDICTION_TTL_DAYS: "7"
       RATE_LIMIT_REQUESTS: "120"
       CORS_ALLOWED_ORIGINS: "http://localhost:3000,http://localhost:8888"
-    depends_on:
-      firestore:
-        condition: service_started
+    # volumes:
+    #   # Read-only, and ./secrets is gitignored. Never bake a key into the image.
+    #   - ./secrets/service-account.json:/secrets/service-account.json:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     restart: unless-stopped
     # The container needs no write access to its own filesystem; /dev/shm is
     # where gunicorn keeps its heartbeat file.
@@ -47,13 +69,3 @@ services:
           # Four sklearn pipelines resident per worker; below ~1 GB the OOM
           # killer starts winning.
           memory: 1500M
-
-  firestore:
-    image: gcr.io/google.com/cloudsdktool/google-cloud-cli:emulators
-    command: >
-      gcloud emulators firestore start
-      --host-port=0.0.0.0:8088
-      --database-mode=firestore-native
-    ports:
-      - "8088:8088"
-    restart: unless-stopped

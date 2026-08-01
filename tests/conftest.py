@@ -54,7 +54,9 @@ class StubPredictor(object):
 
 
 class FakeRepository(object):
-    """In-memory stand-in for FirestoreRepository."""
+    """In-memory stand-in for the Firebase repositories."""
+
+    backend = "fake"
 
     def __init__(self, enabled=True, fail_writes=False):
         self._enabled = enabled
@@ -130,6 +132,7 @@ def fake_repo():
 def app(stub_predictor, fake_repo):
     application = create_app("testing")
     application.extensions["predictor"] = stub_predictor
+    application.extensions["repository"] = fake_repo
     application.extensions["firestore_repo"] = fake_repo
     return application
 

@@ -49,12 +49,12 @@ def list_predictions():
     """Recent predictions, newest first.
 
     Query: ?limit=20&type=INFP
-    Returns an empty list (200) rather than an error when Firestore is
+    Returns an empty list (200) rather than an error when the database is
     degraded, so the UI can render without special-casing an outage.
     """
     from flask import request
 
-    repo = current_app.extensions["firestore_repo"]
+    repo = current_app.extensions["repository"]
 
     default_limit = int(current_app.config.get("HISTORY_PAGE_SIZE", 20))
     max_limit = int(current_app.config.get("HISTORY_MAX_PAGE_SIZE", 100))
@@ -96,7 +96,7 @@ def list_predictions():
 @api_bp.route("/stats", methods=["GET"])
 def stats_endpoint():
     """Aggregate counters maintained by atomic increments on write."""
-    repo = current_app.extensions["firestore_repo"]
+    repo = current_app.extensions["repository"]
     stats = repo.stats()
     if stats is None:
         return (
@@ -119,12 +119,18 @@ def meta_endpoint():
     from .. import __version__
 
     predictor = current_app.extensions["predictor"]
+    repo = current_app.extensions["repository"]
     return jsonify(
         {
             "app_version": __version__,
             "model_version": predictor.model_version(),
             "models_loaded": predictor.loaded,
             "environment": current_app.config.get("ENV"),
+            "database": {
+                "backend": repo.backend,
+                "enabled": repo.enabled,
+                "available": repo.enabled and repo.client() is not None,
+            },
             "limits": {
                 "min_snippet_chars": current_app.config.get("MIN_SNIPPET_CHARS"),
                 "max_snippet_chars": current_app.config.get("MAX_SNIPPET_CHARS"),

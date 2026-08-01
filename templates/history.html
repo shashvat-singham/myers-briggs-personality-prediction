@@ -63,11 +63,11 @@
 				<h2>What has been predicted so far</h2>
 				<hr/>
 				<p>
-					Every prediction is written to Cloud Firestore, along with the
-					four per-axis probabilities and the model version that produced
-					it. Counts come from an aggregate document maintained with atomic
-					increments, so this page costs one document read no matter how
-					much history exists.
+					Every prediction is written to the Firebase Realtime Database,
+					along with the four per-axis probabilities and the model version
+					that produced it. Counts come from an aggregate node kept up to
+					date by a transaction on each write, so this page reads one small
+					node no matter how much history exists.
 				</p>
 
 				{% if storage_available is defined and not storage_available %}

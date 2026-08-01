@@ -13,12 +13,12 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .config import get_config
 from .errors import RateLimitedError, register_error_handlers
-from .firestore_repo import FirestoreRepository
 from .logging_utils import REQUEST_ID_HEADER, configure_logging, get_request_id
 from .predictor import ModelLoadError, get_predictor
 from .ratelimit import RateLimiter
+from .repository import create_repository
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 
 log = logging.getLogger(__name__)
 
@@ -70,7 +70,11 @@ def create_app(config_name=None, config_overrides=None):
             app.wsgi_app, x_for=hops, x_proto=hops, x_host=hops, x_prefix=hops
         )
 
-    app.extensions["firestore_repo"] = FirestoreRepository(config)
+    # Named `repository` for the storage-agnostic interface; the old
+    # `firestore_repo` key is kept as an alias so nothing external breaks.
+    repository = create_repository(config)
+    app.extensions["repository"] = repository
+    app.extensions["firestore_repo"] = repository
     app.extensions["predictor"] = get_predictor(
         model_dir=app.config.get("MODEL_DIR"),
         version_override=os.environ.get("MODEL_VERSION"),
@@ -99,7 +103,8 @@ def create_app(config_name=None, config_overrides=None):
         extra={
             "app_version": __version__,
             "env": app.config.get("ENV"),
-            "firestore_enabled": bool(app.config.get("FIRESTORE_ENABLED")),
+            "database_backend": repository.backend,
+            "database_enabled": bool(app.config.get("DATABASE_ENABLED")),
         },
     )
     return app

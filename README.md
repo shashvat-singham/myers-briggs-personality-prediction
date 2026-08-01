@@ -18,7 +18,7 @@ You can visit my this project deployed site: https://shashvat-mbti.netlify.app/
 *   Data Analysis - Pandas | Numpy | Matplotlib
 *   APP – Flask | Python
 *   Templates – HTML | CSS | Bootstrap
-*   Database – Cloud Firestore (Firebase project `mbpp-7347c`)
+*   Database – Firebase Realtime Database (project `mbpp-7347c`), with Cloud Firestore as a switchable alternative
 *   Deployment - Netlify (frontend) | Docker container on Cloud Run (backend) | GCP
 
 ---
@@ -32,17 +32,23 @@ You can visit my this project deployed site: https://shashvat-mbti.netlify.app/
         Docker container: Flask + gunicorn + 4 sklearn pipelines
                      │  Firebase Admin SDK
                      ▼
-        Cloud Firestore  ·  predictions/  ·  stats/global
+        Realtime Database  ·  /predictions  ·  /stats
 ```
 
 Netlify serves the frontend and rewrites `/api/*` to the container, so the
 browser only talks to the Netlify origin. Netlify cannot host the predictor
 itself — its Functions runtime is JavaScript/Go, and the model stack needs
-scikit-learn, scipy, NLTK corpora and 24 MB of joblib artifacts. Firestore is
+scikit-learn, scipy, NLTK corpora and 24 MB of joblib artifacts. The database is
 reached only by the backend; no Firebase credentials are exposed to the browser
-and `firestore.rules` denies all direct client access.
+and `database.rules.json` denies all direct client access.
 
-Full deployment instructions, including Firestore setup, TTL policy, Cloud Run
+Every prediction — from the form or the API — is written automatically, along
+with its four per-axis probabilities and the model version that produced it.
+Writes are best-effort: if the database is unreachable the prediction still
+returns, with `"stored": false` in the response and a `prediction_save_failed`
+line in the logs. `DATABASE_BACKEND` selects `rtdb` (default) or `firestore`.
+
+Full deployment instructions, including database rules, retention, Cloud Run
 flags and Netlify build settings, are in [DEPLOYMENT.md](DEPLOYMENT.md).
 
 ### Layout
@@ -51,23 +57,27 @@ flags and Netlify build settings, are in [DEPLOYMENT.md](DEPLOYMENT.md).
 | --- | --- |
 | `mbpp/__init__.py` | app factory: config, logging, proxy trust, security headers, CORS, hooks |
 | `mbpp/config.py` | env-driven config, strict validation in production |
-| `mbpp/firestore_repo.py` | Firestore persistence: batched writes, atomic counters, graceful degradation |
+| `mbpp/repository.py` | storage-agnostic base + backend selection (hashing, document shaping, credentials) |
+| `mbpp/rtdb_repo.py` | Realtime Database persistence: push writes, transactional counters, key-ordered history |
+| `mbpp/firestore_repo.py` | Cloud Firestore persistence, used when `DATABASE_BACKEND=firestore` |
 | `mbpp/predictor.py` | model loading (once per process) and per-axis probabilities |
 | `mbpp/preprocess.py` | feature engineering, unchanged in behaviour from training |
 | `mbpp/service.py` | validation + predict + persist, shared by both entry points |
 | `mbpp/routes/` | `web` (HTML), `api` (JSON, `/api/v1`), `health` (probes) |
 | `tools/build_static.py` | renders the same templates into `dist/` for Netlify |
-| `firestore.rules`, `firestore.indexes.json` | database security rules and indexes |
-| `Dockerfile`, `docker-compose.yml` | production image; local stack with the Firestore emulator |
+| `database.rules.json` | Realtime Database security rules and indexes |
+| `firestore.rules`, `firestore.indexes.json` | equivalents for the Firestore backend |
+| `tools/prune_predictions.py`, `tools/rebuild_stats.py` | retention and counter repair (RTDB has no server-side TTL) |
+| `Dockerfile`, `docker-compose.yml` | production image; local stack |
 
 ### API
 
 | Endpoint | Purpose |
 | --- | --- |
-| `POST /api/v1/predict` | `{"text": "..."}` → type, per-axis probabilities, document id |
+| `POST /api/v1/predict` | `{"text": "..."}` → type, per-axis probabilities, stored record id |
 | `GET /api/v1/predictions` | recent predictions (`?limit=20&type=INFP`) |
-| `GET /api/v1/stats` | aggregate counts (one document read) |
-| `GET /api/v1/meta` | app version, model version, request limits |
+| `GET /api/v1/stats` | aggregate counts (one small read, no scan) |
+| `GET /api/v1/meta` | app version, model version, active database backend, request limits |
 | `GET /healthz`, `GET /readyz` | liveness / readiness probes |
 
 Errors are JSON with a stable `error.code`, and every response carries
@@ -77,7 +87,7 @@ Errors are JSON with a stable `error.code`, and every response carries
 
 ## Running it
 
-### Local (Docker, with the Firestore emulator)
+### Local (Docker)
 
 ```bash
 docker compose up --build
@@ -86,8 +96,9 @@ curl -s -X POST localhost:8080/api/v1/predict \
      -d '{"text":"welcome, nice to meet you"}'
 ```
 
-Compose runs against the emulator, so local development never touches the real
-database.
+`"stored": true` in the response means the write reached the database. To develop
+without touching the real one, run `firebase emulators:start --only database` and
+uncomment `FIREBASE_DATABASE_EMULATOR_HOST` in docker-compose.yml.
 
 ### Local (no Docker)
 
@@ -110,14 +121,15 @@ pytest
 ```
 
 The suite stubs the predictor, so it runs on any modern Python without the
-pinned ML stack: it covers the HTTP contract, input validation, persistence
-wiring, degraded-Firestore behaviour, rate limiting and the Netlify build.
+pinned ML stack: it covers the HTTP contract, input validation, both persistence
+backends, degraded-database behaviour, rate limiting and the Netlify build.
 
 ### Configuration
 
 Every knob is an environment variable, documented in
-[.env.example](.env.example). Production refuses to start without `SECRET_KEY`
-and `FIREBASE_PROJECT_ID` rather than falling back to insecure defaults.
+[.env.example](.env.example). Production refuses to start without `SECRET_KEY`,
+`FIREBASE_PROJECT_ID` or (for the RTDB backend) `FIREBASE_DATABASE_URL`, rather
+than falling back to insecure defaults or silently failing every write.
 
 ## Methodology
 1.  **Class Imbalance:** To examine the proportionality of each of the sixteen personality types, Matplotlib was used to plot the value counts of each of these sixteen types. Since the classes were heavily imbalanced, following steps were taken:

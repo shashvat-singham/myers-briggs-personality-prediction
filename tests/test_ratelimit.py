@@ -61,7 +61,7 @@ class TestRateLimitedEndpoint:
             },
         )
         app.extensions["predictor"] = StubPredictor()
-        app.extensions["firestore_repo"] = FakeRepository()
+        app.extensions["repository"] = FakeRepository()
         return app
 
     def test_returns_429_with_retry_after(self):

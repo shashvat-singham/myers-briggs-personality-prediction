@@ -32,7 +32,7 @@
 							"host": ["{{baseUrl}}"],
 							"path": ["api", "v1", "predict"]
 						},
-						"description": "Returns the predicted type, per-axis probabilities, the model version and the Firestore document id (null when storage is unavailable)."
+						"description": "Returns the predicted type, per-axis probabilities, the model version and the stored record id. `stored` is false and `id` is null when the database is unavailable -- persistence is best-effort and never fails a prediction."
 					},
 					"response": []
 				},
@@ -70,7 +70,7 @@
 								{ "key": "type", "value": "INFP", "disabled": true }
 							]
 						},
-						"description": "Recent predictions from Firestore, newest first. The `type` filter needs the composite index in firestore.indexes.json."
+						"description": "Recent predictions, newest first. On the Realtime Database the `type` filter needs `.indexOn: personality_type` from database.rules.json."
 					},
 					"response": []
 				},
@@ -84,7 +84,7 @@
 							"host": ["{{baseUrl}}"],
 							"path": ["api", "v1", "stats"]
 						},
-						"description": "Aggregate counters from stats/global -- one document read regardless of history size."
+						"description": "Aggregate counters from /stats -- one small read regardless of history size."
 					},
 					"response": []
 				},
@@ -98,7 +98,7 @@
 							"host": ["{{baseUrl}}"],
 							"path": ["api", "v1", "meta"]
 						},
-						"description": "App version, model version and the configured request limits."
+						"description": "App version, model version, the active database backend and the configured request limits."
 					},
 					"response": []
 				}
@@ -131,7 +131,7 @@
 							"host": ["{{baseUrl}}"],
 							"path": ["readyz"]
 						},
-						"description": "Readiness: models loaded, NLTK corpora present, Firestore reachable. 503 when models or corpora are missing; a Firestore outage is reported but stays 200."
+						"description": "Readiness: models loaded, NLTK corpora present, database reachable. 503 when models or corpora are missing; a database outage is reported but stays 200, because writes are best-effort."
 					},
 					"response": []
 				}

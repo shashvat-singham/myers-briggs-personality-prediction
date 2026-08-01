@@ -65,30 +65,51 @@ class Config(object):
     # a broken/missing artifact fails the deploy rather than a user's request.
     PRELOAD_MODELS = _bool("PRELOAD_MODELS", True)
 
-    # --- firestore --------------------------------------------------------
-    FIRESTORE_ENABLED = _bool("FIRESTORE_ENABLED", True)
+    # --- database ---------------------------------------------------------
+    # "rtdb" (Firebase Realtime Database, the provisioned database for this
+    # project) or "firestore". See mbpp/repository.py.
+    DATABASE_BACKEND = os.environ.get("DATABASE_BACKEND", "rtdb").strip().lower()
+    # FIRESTORE_ENABLED is the legacy name for this flag and still works.
+    DATABASE_ENABLED = _bool(
+        "DATABASE_ENABLED", _bool("FIRESTORE_ENABLED", True)
+    )
     FIREBASE_PROJECT_ID = os.environ.get("FIREBASE_PROJECT_ID") or os.environ.get(
         "GOOGLE_CLOUD_PROJECT"
     )
     # Inline credentials for platforms with no writable secret files. Accepts
     # raw JSON or standard base64 of the JSON.
     FIREBASE_SERVICE_ACCOUNT_JSON = os.environ.get("FIREBASE_SERVICE_ACCOUNT_JSON", "")
+
+    # Hard ceiling on how long a request will wait on the database.
+    # Persistence is best-effort: a slow database must never turn into a slow
+    # prediction.
+    DB_TIMEOUT_SECONDS = _float(
+        "DB_TIMEOUT_SECONDS", _float("FIRESTORE_TIMEOUT_SECONDS", 5.0)
+    )
+    DB_RETRIES = _int("DB_RETRIES", _int("FIRESTORE_RETRIES", 2))
+
+    # --- realtime database (DATABASE_BACKEND=rtdb) ------------------------
+    # e.g. https://mbpp-7347c-default-rtdb.firebaseio.com -- copy it from the
+    # Realtime Database page in the Firebase console.
+    FIREBASE_DATABASE_URL = os.environ.get("FIREBASE_DATABASE_URL", "")
+    RTDB_PREDICTIONS_PATH = os.environ.get("RTDB_PREDICTIONS_PATH", "predictions")
+    RTDB_STATS_PATH = os.environ.get("RTDB_STATS_PATH", "stats")
+
+    # --- firestore (DATABASE_BACKEND=firestore) ---------------------------
     FIRESTORE_DATABASE = os.environ.get("FIRESTORE_DATABASE", "(default)")
     FIRESTORE_PREDICTIONS_COLLECTION = os.environ.get(
         "FIRESTORE_PREDICTIONS_COLLECTION", "predictions"
     )
     FIRESTORE_STATS_COLLECTION = os.environ.get("FIRESTORE_STATS_COLLECTION", "stats")
     FIRESTORE_STATS_DOC = os.environ.get("FIRESTORE_STATS_DOC", "global")
-    # Hard ceiling on how long a request will wait on Firestore. Persistence is
-    # best-effort: a slow database must never turn into a slow prediction.
-    FIRESTORE_TIMEOUT_SECONDS = _float("FIRESTORE_TIMEOUT_SECONDS", 5.0)
-    FIRESTORE_RETRIES = _int("FIRESTORE_RETRIES", 2)
     # Persist the submitted snippet (truncated) alongside the prediction.
     # Turn off for privacy-sensitive deployments; the SHA-256 is always stored.
     STORE_RAW_TEXT = _bool("STORE_RAW_TEXT", True)
     STORED_TEXT_MAX_CHARS = _int("STORED_TEXT_MAX_CHARS", 1000)
-    # Days after which a prediction document becomes eligible for deletion by
-    # the Firestore TTL policy on `expires_at`. 0 disables expiry.
+    # Days after which a prediction becomes eligible for deletion. 0 disables
+    # expiry. Firestore enforces this server-side via a TTL policy on
+    # `expires_at`; the Realtime Database has no TTL feature, so there it is
+    # advisory and tools/prune_predictions.py does the deleting.
     PREDICTION_TTL_DAYS = _int("PREDICTION_TTL_DAYS", 90)
     HISTORY_PAGE_SIZE = _int("HISTORY_PAGE_SIZE", 20)
     HISTORY_MAX_PAGE_SIZE = _int("HISTORY_MAX_PAGE_SIZE", 100)
@@ -119,11 +140,28 @@ class Config(object):
         if cls.ENV == "production":
             if not cls.SECRET_KEY:
                 problems.append("SECRET_KEY must be set in production")
-            if cls.FIRESTORE_ENABLED and not cls.FIREBASE_PROJECT_ID:
+            if cls.DATABASE_ENABLED and not cls.FIREBASE_PROJECT_ID:
                 problems.append(
                     "FIREBASE_PROJECT_ID (or GOOGLE_CLOUD_PROJECT) must be set "
-                    "when FIRESTORE_ENABLED is true"
+                    "when DATABASE_ENABLED is true"
                 )
+            # Without the URL the RTDB backend cannot resolve a database at all,
+            # so every write would silently degrade. Catch it at boot.
+            if (
+                cls.DATABASE_ENABLED
+                and cls.DATABASE_BACKEND == "rtdb"
+                and not cls.FIREBASE_DATABASE_URL
+                and not os.environ.get("FIREBASE_DATABASE_EMULATOR_HOST")
+            ):
+                problems.append(
+                    "FIREBASE_DATABASE_URL must be set for DATABASE_BACKEND=rtdb "
+                    "(e.g. https://mbpp-7347c-default-rtdb.firebaseio.com)"
+                )
+        if cls.DATABASE_BACKEND not in ("rtdb", "firestore"):
+            problems.append(
+                "DATABASE_BACKEND must be 'rtdb' or 'firestore', got %r"
+                % cls.DATABASE_BACKEND
+            )
         if cls.MIN_SNIPPET_CHARS > cls.MAX_SNIPPET_CHARS:
             problems.append("MIN_SNIPPET_CHARS cannot exceed MAX_SNIPPET_CHARS")
         return problems
@@ -142,7 +180,7 @@ class TestingConfig(Config):
     TESTING = True
     DEBUG = False
     SECRET_KEY = "testing-key"
-    FIRESTORE_ENABLED = False
+    DATABASE_ENABLED = False
     PRELOAD_MODELS = False
     RATE_LIMIT_ENABLED = False
     LOG_JSON = False

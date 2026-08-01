@@ -14,7 +14,8 @@ from mbpp.firestore_repo import FirestoreRepository
 
 
 class Config(TestingConfig):
-    FIRESTORE_ENABLED = True
+    DATABASE_ENABLED = True
+    DATABASE_BACKEND = "firestore"
     IP_HASH_SALT = "unit-test-salt"
     STORE_RAW_TEXT = True
     STORED_TEXT_MAX_CHARS = 10
@@ -107,7 +108,7 @@ class TestCredentialParsing:
 
 class TestDegradedBehaviour:
     def test_disabled_repo_is_a_no_op(self):
-        repo = FirestoreRepository(TestingConfig)  # FIRESTORE_ENABLED = False
+        repo = FirestoreRepository(TestingConfig)  # DATABASE_ENABLED = False
         assert repo.enabled is False
         assert repo.client() is None
         assert repo.save_prediction({"personality_type": "INFP"}) is None
@@ -196,7 +197,7 @@ class TestWritePath:
         assert merge is True
         assert "total" in stats_payload
         assert "ENTJ" in stats_payload["types"]
-        assert recorded["commit_kwargs"]["timeout"] == Config.FIRESTORE_TIMEOUT_SECONDS
+        assert recorded["commit_kwargs"]["timeout"] == Config.DB_TIMEOUT_SECONDS
 
     def test_ttl_field_omitted_when_disabled(self, monkeypatch):
         class NoTtl(Config):

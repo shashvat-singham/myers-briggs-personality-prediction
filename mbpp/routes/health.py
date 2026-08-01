@@ -2,7 +2,7 @@
 
 The split matters in production: a liveness failure gets the container
 restarted, a readiness failure only takes it out of the load balancer. So
-`/healthz` deliberately checks nothing external -- a Firestore outage must not
+`/healthz` deliberately checks nothing external -- a database outage must not
 trigger a restart loop across the whole fleet -- while `/readyz` checks the
 dependencies a real request needs.
 """
@@ -25,7 +25,7 @@ def healthz():
 def readyz():
     """Readiness: can this instance serve a prediction and persist it?"""
     predictor = current_app.extensions["predictor"]
-    repo = current_app.extensions["firestore_repo"]
+    repo = current_app.extensions["repository"]
 
     checks = {}
 
@@ -46,11 +46,15 @@ def readyz():
         "detail": "ok" if not nltk_missing else "missing: %s" % ",".join(nltk_missing),
     }
 
-    firestore_ok, firestore_detail = repo.ping()
-    checks["firestore"] = {"ok": firestore_ok, "detail": firestore_detail}
+    database_ok, database_detail = repo.ping()
+    checks["database"] = {
+        "ok": database_ok,
+        "backend": repo.backend,
+        "detail": database_detail,
+    }
 
-    # Firestore is intentionally excluded from the readiness verdict: writes are
-    # best-effort, so an instance that can still predict should keep serving.
+    # The database is intentionally excluded from the readiness verdict: writes
+    # are best-effort, so an instance that can still predict should keep serving.
     ready = checks["models"]["ok"] and checks["nltk_data"]["ok"]
     payload = {
         "status": "ready" if ready else "not_ready",

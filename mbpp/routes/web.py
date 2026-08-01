@@ -62,12 +62,12 @@ def response():
 
 @web_bp.route("/history")
 def history():
-    """Recent predictions from Firestore.
+    """Recent predictions from the database.
 
     Renders with an explicit notice when storage is unavailable rather than
     failing the page.
     """
-    repo = current_app.extensions["firestore_repo"]
+    repo = current_app.extensions["repository"]
     limit = int(current_app.config.get("HISTORY_PAGE_SIZE", 20))
     items = repo.recent_predictions(limit=limit)
     stats = repo.stats()

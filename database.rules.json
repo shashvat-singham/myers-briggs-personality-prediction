@@ -1,0 +1,17 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "predictions": {
+      ".read": false,
+      ".write": false,
+      ".indexOn": ["personality_type", "created_at"]
+    },
+
+    "stats": {
+      ".read": false,
+      ".write": false
+    }
+  }
+}

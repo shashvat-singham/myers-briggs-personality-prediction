@@ -165,7 +165,7 @@ class TestHealth:
         assert response.status_code == 503
         assert response.get_json()["status"] == "not_ready"
 
-    def test_readyz_tolerates_firestore_outage(self, client, fake_repo, monkeypatch):
+    def test_readyz_tolerates_database_outage(self, client, fake_repo, monkeypatch):
         monkeypatch.setattr(
             "mbpp.preprocess.ensure_nltk_data", lambda download_missing=False: []
         )
@@ -175,7 +175,7 @@ class TestHealth:
         # Persistence is best-effort, so an instance that can still predict
         # must stay in the load balancer.
         assert response.status_code == 200
-        assert response.get_json()["checks"]["firestore"]["ok"] is False
+        assert response.get_json()["checks"]["database"]["ok"] is False
 
 
 class TestWebRoutes:

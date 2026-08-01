@@ -57,11 +57,12 @@ def validate_snippet(raw, config=None):
 def run_prediction(text, source="api", persist=True):
     """Predict, persist best-effort, and return (result, document_id).
 
-    `result` always comes back on success. `document_id` is None when Firestore
-    is disabled or unreachable -- a storage failure never fails the prediction.
+    `result` always comes back on success. `document_id` is None when the
+    database is disabled or unreachable -- a storage failure never fails the
+    prediction.
     """
     predictor = current_app.extensions["predictor"]
-    repo = current_app.extensions["firestore_repo"]
+    repo = current_app.extensions["repository"]
 
     started = time.time()
     try:
