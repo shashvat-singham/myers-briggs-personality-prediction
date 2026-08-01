@@ -48,6 +48,12 @@ log = logging.getLogger(__name__)
 # are used as child keys under stats/types.
 _INVALID_KEY_CHARS = ".$#[]/"
 
+# Server-side timestamp sentinel. Unlike the Node/Java SDKs, the Python Admin
+# SDK exposes no `db.ServerValue` helper -- the wire format is sent literally,
+# and the database substitutes its own clock. Using the client's clock instead
+# would let a skewed machine reorder history, since ordering is by key/time.
+SERVER_TIMESTAMP = {".sv": "timestamp"}
+
 
 class RealtimeDatabaseRepository(BaseRepository):
     backend = "rtdb"
@@ -117,7 +123,7 @@ class RealtimeDatabaseRepository(BaseRepository):
 
         try:
             payload = dict(document)
-            payload["created_at"] = handle.db.ServerValue.TIMESTAMP
+            payload["created_at"] = SERVER_TIMESTAMP
             expires_at = self._expiry()
             if expires_at is not None:
                 payload["expires_at"] = int(expires_at.timestamp() * 1000)

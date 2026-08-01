@@ -11,7 +11,12 @@
 scikit-learn==0.23.2
 imbalanced-learn==0.7.0
 joblib==1.3.2
-numpy==1.24.4
+# numpy must stay below 1.24: that release removed the np.int / np.float
+# aliases, and scikit-learn 0.23.2 still uses them (`import sklearn` dies in
+# sklearn/feature_extraction/image.py). 1.23.5 is the last 1.23 patch.
+numpy==1.23.5
+# scipy must stay below 1.14, which removed the scipy.sparse.csr module the
+# pickled pipelines reference (scipy.sparse.csr.csr_matrix).
 scipy==1.10.1
 pandas==1.5.3
 nltk==3.8.1

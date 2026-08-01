@@ -9,7 +9,7 @@ import pytest
 
 from mbpp.config import TestingConfig
 from mbpp.repository import DisabledRepository, create_repository
-from mbpp.rtdb_repo import RealtimeDatabaseRepository, _iso
+from mbpp.rtdb_repo import SERVER_TIMESTAMP, RealtimeDatabaseRepository, _iso
 
 
 class Config(TestingConfig):
@@ -137,14 +137,15 @@ class FakeReference(object):
         return FakeQuery(self, "child", child)
 
 
-class FakeServerValue(object):
-    TIMESTAMP = {"__sv__": "timestamp"}
-
-
 class FakeDb(object):
-    """Stands in for the `firebase_admin.db` module."""
+    """Stands in for the `firebase_admin.db` module.
 
-    ServerValue = FakeServerValue
+    Deliberately exposes only what the real module has. An earlier version of
+    this fake provided a `ServerValue` helper copied from the Node SDK; the
+    Python Admin SDK has no such attribute, so the tests passed while every
+    real write failed with AttributeError. A fake that is more permissive than
+    the thing it replaces is worse than no fake at all.
+    """
 
     def __init__(self):
         self.stores = {}
@@ -213,8 +214,10 @@ class TestWritePath:
         assert record_id.startswith("-Nx")
         stored = repo.fake_db.stores["predictions"][record_id]
         assert stored["personality_type"] == "ENTJ"
-        # Server-authoritative time: never the client's clock.
-        assert stored["created_at"] == FakeServerValue.TIMESTAMP
+        # Server-authoritative time: never the client's clock. This is the
+        # literal wire sentinel the database substitutes.
+        assert stored["created_at"] == {".sv": "timestamp"}
+        assert stored["created_at"] == SERVER_TIMESTAMP
         assert "expires_at" in stored  # TTL configured in this config
 
     def test_counters_increment_transactionally(self, repo):
@@ -249,8 +252,6 @@ class TestWritePath:
 
     def test_write_failure_returns_none(self, repo, monkeypatch):
         class ExplodingDb(object):
-            ServerValue = FakeServerValue
-
             def reference(self, path, app=None):
                 raise RuntimeError("rtdb is down")
 
@@ -336,8 +337,6 @@ class TestReadPath:
 
     def test_read_failure_degrades_quietly(self, repo):
         class ExplodingDb(object):
-            ServerValue = FakeServerValue
-
             def reference(self, path, app=None):
                 raise RuntimeError("rtdb is down")
 

@@ -25,9 +25,25 @@ RUN python -m venv /opt/venv \
 # Bake in only the four corpora the feature pipeline needs. `nltk.downloader
 # all` (the previous approach) pulls in gigabytes and needs a writable HOME at
 # runtime, which a read-only container does not have.
+#
+# Only redundant archives are removed. Deleting every *.zip would break the
+# image: the downloader leaves wordnet and omw-1.4 zipped and NLTK reads them
+# in place, so the zip IS the corpus and the lemmatizer would fail at runtime.
 RUN /opt/venv/bin/python -m nltk.downloader -d /usr/share/nltk_data \
     punkt stopwords wordnet omw-1.4 averaged_perceptron_tagger \
-    && find /usr/share/nltk_data -name "*.zip" -delete
+    && find /usr/share/nltk_data -name "*.zip" -print0 \
+       | while IFS= read -r -d '' archive; do \
+             if [ -d "${archive%.zip}" ]; then rm -f "$archive"; fi; \
+         done \
+    && NLTK_DATA=/usr/share/nltk_data /opt/venv/bin/python -c "\
+import nltk; \
+from nltk.corpus import stopwords; \
+from nltk.stem import WordNetLemmatizer; \
+from nltk.tokenize import word_tokenize; \
+assert stopwords.words('english'), 'stopwords unusable'; \
+assert WordNetLemmatizer().lemmatize('running', 'v') == 'run', 'wordnet unusable'; \
+assert nltk.pos_tag(word_tokenize('a quick test')), 'punkt/tagger unusable'; \
+print('nltk corpora verified')"
 
 # ----------------------------------------------------------------- runtime ---
 FROM python:3.8-slim-bullseye AS runtime

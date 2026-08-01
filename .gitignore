@@ -3,6 +3,7 @@
 .env.*
 !.env.example
 # Firebase service-account keys, in every name they usually turn up as
+secrets/
 *serviceAccount*.json
 *service-account*.json
 *firebase-adminsdk*.json

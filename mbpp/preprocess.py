@@ -27,30 +27,48 @@ log = logging.getLogger(__name__)
 # request would make the first prediction slow and, on a read-only container
 # filesystem, fail -- so the image bakes them in and `ensure_nltk_data()`
 # verifies them during startup.
+#
+# Each entry lists every acceptable location for the resource. The `.zip` forms
+# matter: the NLTK downloader leaves some corpora (wordnet, omw-1.4) zipped and
+# reads them in place, so `nltk.data.find("corpora/wordnet")` raises LookupError
+# on a perfectly working install while the lemmatizer is happy. Checking only
+# the unzipped path made /readyz report 503 on a healthy instance.
 REQUIRED_NLTK_DATA = (
-    ("corpora/stopwords", "stopwords"),
-    ("corpora/wordnet", "wordnet"),
-    ("tokenizers/punkt", "punkt"),
-    ("taggers/averaged_perceptron_tagger", "averaged_perceptron_tagger"),
+    (("corpora/stopwords", "corpora/stopwords.zip"), "stopwords"),
+    (("corpora/wordnet", "corpora/wordnet.zip"), "wordnet"),
+    (("tokenizers/punkt", "tokenizers/punkt.zip"), "punkt"),
+    (
+        (
+            "taggers/averaged_perceptron_tagger",
+            "taggers/averaged_perceptron_tagger.zip",
+        ),
+        "averaged_perceptron_tagger",
+    ),
 )
+
+
+def _available(candidates):
+    for path in candidates:
+        try:
+            nltk.data.find(path)
+            return True
+        except LookupError:
+            continue
+    return False
 
 
 def ensure_nltk_data(download_missing=False):
     """Return the list of missing NLTK resources, optionally downloading them."""
     missing = []
-    for path, package in REQUIRED_NLTK_DATA:
-        try:
-            nltk.data.find(path)
-        except LookupError:
-            if download_missing:
-                log.warning("nltk_download", extra={"package": package})
-                nltk.download(package, quiet=True)
-                try:
-                    nltk.data.find(path)
-                    continue
-                except LookupError:
-                    pass
-            missing.append(package)
+    for candidates, package in REQUIRED_NLTK_DATA:
+        if _available(candidates):
+            continue
+        if download_missing:
+            log.warning("nltk_download", extra={"package": package})
+            nltk.download(package, quiet=True)
+            if _available(candidates):
+                continue
+        missing.append(package)
     return missing
 
 
