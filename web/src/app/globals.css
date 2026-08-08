@@ -1,0 +1,166 @@
+@import "tailwindcss";
+
+/* --------------------------------------------------------------------------
+   Design tokens.
+
+   The palette is committed to a single dark treatment rather than following
+   the system theme: every surface here is glass over an aurora backdrop, and
+   that effect has no honest light-mode equivalent.
+   -------------------------------------------------------------------------- */
+@theme {
+  --color-ink-950: #05060a;
+  --color-ink-900: #090b12;
+  --color-ink-800: #10131d;
+  --color-ink-700: #191d2b;
+
+  --color-chalk: #f4f5f8;
+  --color-mute: #9aa1b4;
+  --color-faint: #626a7e;
+
+  --color-violet: #8b5cf6;
+  --color-iris: #6366f1;
+  --color-cyan: #22d3ee;
+  --color-amber: #f59e0b;
+  --color-rose: #f43f5e;
+  --color-emerald: #10b981;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --animate-rise: rise 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-drift: drift 26s ease-in-out infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4%, -6%, 0) scale(1.12);
+  }
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-ink-950);
+  color: var(--color-chalk);
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Aurora backdrop. Fixed and pointer-transparent so it never intercepts
+   clicks or scrolls with the page content. */
+.aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.28;
+  animation: var(--animate-drift);
+}
+
+.aurora::before {
+  top: -22vw;
+  left: -14vw;
+  background: radial-gradient(circle, var(--color-violet), transparent 68%);
+}
+
+.aurora::after {
+  bottom: -26vw;
+  right: -16vw;
+  background: radial-gradient(circle, var(--color-cyan), transparent 68%);
+  animation-delay: -13s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before,
+  .aurora::after {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Fine grain over the whole page — keeps large flat areas from banding. */
+.grain::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@utility glass {
+  background: color-mix(in oklab, white 4%, transparent);
+  border: 1px solid color-mix(in oklab, white 9%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+@utility text-gradient {
+  background: linear-gradient(
+    100deg,
+    var(--color-chalk) 10%,
+    var(--color-violet) 48%,
+    var(--color-cyan) 88%
+  );
+  background-clip: text;
+  color: transparent;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--color-violet) 40%, transparent);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-ink-950);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-ink-700);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #262b3d;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-violet);
+  outline-offset: 2px;
+}

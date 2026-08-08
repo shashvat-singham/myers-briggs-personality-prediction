@@ -1,0 +1,14 @@
+# Normalise line endings in the repository to LF.
+#
+# Without this, checking out on Windows rewrites every source file to CRLF and
+# git reports the whole tree as modified on the next status. The Linux build
+# containers (Vercel, Docker) only ever see LF either way.
+* text=auto eol=lf
+
+# Binary assets git must not touch.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.joblib binary
+*.docx binary
+*.ipynb -text

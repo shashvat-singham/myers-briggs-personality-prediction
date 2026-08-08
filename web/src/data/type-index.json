@@ -1,0 +1,114 @@
+[
+  {
+    "type": "ENFJ",
+    "name": "Extraverted Intuitive Feeling Judging",
+    "epithet": "The Giver",
+    "nameDescription": "Extraverted Feeling with Introverted Intuition",
+    "blurb": "As an ENFJ, you're primary mode of living is focused externally, where you deal with things according to how you feel about them, or how they fit into your personal value system. Your secondary mode is internal, where you take things in primarily via your intuition."
+  },
+  {
+    "type": "ENFP",
+    "name": "Extraverted Intuitive Feeling Perceiving",
+    "epithet": "The Inspirer",
+    "nameDescription": "Extraverted Intuition with Introverted Feeling",
+    "blurb": "As an ENFP, your primary mode of living is focused externally, where you take things in primarily via your intuition. Your secondary mode is internal, where you deal with things according to how you feel about them, or how they fit in with your personal value system."
+  },
+  {
+    "type": "ENTJ",
+    "name": "Extraverted Intuitive Thinking Judging",
+    "epithet": "The Executive",
+    "nameDescription": "Extraverted Thinking with Introverted Intuition",
+    "blurb": "As an ENTJ, your primary mode of living is focused externally, where you deal with things rationally and logically. Your secondary mode is internal, where you take things in primarily via your intuition."
+  },
+  {
+    "type": "ENTP",
+    "name": "Extraverted Intuitive Thinking Perceiving",
+    "epithet": "The Visionary",
+    "nameDescription": "Extraverted Intuition with Introverted Thinking",
+    "blurb": "As an ENTP, your primary mode of living is focused externally, where you take things in primarily via your intuition. Your secondary mode is internal, where you deal with things rationally and logically."
+  },
+  {
+    "type": "ESFJ",
+    "name": "Extraverted Sensing Feeling Judging",
+    "epithet": "The Caregiver",
+    "nameDescription": "Extraverted Feeling with Introverted Sensing",
+    "blurb": "As an ESFJ, your primary mode of living is focused externally, where you deal with things according to how you feel about them, or how they fit in with your personal value system. Your secondary mode is internal, where you take things in via your five senses in a literal, concrete fashion."
+  },
+  {
+    "type": "ESFP",
+    "name": "Extraverted Sensing Feeling Perceiving",
+    "epithet": "The Performer",
+    "nameDescription": "Extraverted Sensing with Introverted Feeling",
+    "blurb": "As an ESFP, your primary mode of living is focused externally, where you take things in via your five senses in a literal, concrete fashion. Your secondary mode is internal, where you deal with things according to how you feel about them, or how they fit with your personal value system."
+  },
+  {
+    "type": "ESTJ",
+    "name": "Extraverted Sensing Thinking Judging",
+    "epithet": "The Guardian",
+    "nameDescription": "Extraverted Thinking with Introverted Sensing",
+    "blurb": "As an ESTJ, your primary mode of living is focused externally, where you deal with things rationally and logically. Your secondary mode is internal, where you take things in via your five senses in a literal, concrete fashion."
+  },
+  {
+    "type": "ESTP",
+    "name": "Extraverted Sensing Thinking Perceiving",
+    "epithet": "The Doer",
+    "nameDescription": "Extraverted Sensing with Introverted Thinking",
+    "blurb": "As an ESTP, your primary mode of living is focused externally, where you take things in via your five senses in a literal, concrete fashion. Your secondary mode is internal, where you deal with things rationally and logically."
+  },
+  {
+    "type": "INFJ",
+    "name": "Introverted iNtuitive Feeling Judging",
+    "epithet": "The Protector",
+    "nameDescription": "Introverted Intuition with Extraverted Feeling",
+    "blurb": "As an INFJ, your primary mode of living is focused internally, where you take things in primarily via intuition. Your secondary mode is external, where you deal with things according to how you feel about them, or how they fit with your personal value system."
+  },
+  {
+    "type": "INFP",
+    "name": "Introverted Intuitive Feeling Perceiving",
+    "epithet": "The Idealist",
+    "nameDescription": "Introverted Feeling with Extraverted Intuition",
+    "blurb": "As an INFP, your primary mode of living is focused internally, where you deal with things according to how you feel about them, or how they fit into your personal value system. Your secondary mode is external, where you take things in primarily via your intuition."
+  },
+  {
+    "type": "INTJ",
+    "name": "Introverted Intuitive Thinking Judging",
+    "epithet": "The Scientist",
+    "nameDescription": "Introverted Intuition with Extraverted Thinking",
+    "blurb": "As an INTJ, your primary mode of living is focused internally, where you take things in primarily via your intuition. Your secondary mode is external, where you deal with things rationally and logically."
+  },
+  {
+    "type": "INTP",
+    "name": "Introverted Intuitive Thinking Perceiving",
+    "epithet": "The Thinker",
+    "nameDescription": "Introverted Thinking with Extraverted Intuition",
+    "blurb": "As an INTP, your primary mode of living is focused internally, where you deal with things rationally and logically. Your secondary mode is external, where you take things in primarily via your intuition."
+  },
+  {
+    "type": "ISFJ",
+    "name": "Introverted Sensing Feeling Judging",
+    "epithet": "The Nurturer",
+    "nameDescription": "Introverted Sensing with Extraverted Feeling",
+    "blurb": "As an ISFJ, your primary mode of living is focused internally, where you take things in via your five senses in a literal, concrete fashion. Your secondary mode is external, where you deal with things according to how you feel about them, or how they fit into your personal value system."
+  },
+  {
+    "type": "ISFP",
+    "name": "Introverted Sensing Feeling Perceiving",
+    "epithet": "The Artist",
+    "nameDescription": "Introverted Feeling with Extraverted Sensing",
+    "blurb": "As an ISFP, your primary mode of living is focused internally, where you deal with things according to how you feel about them, or how they fit into your value system."
+  },
+  {
+    "type": "ISTJ",
+    "name": "Introverted Sensing Thinking Judging",
+    "epithet": "The Duty Fulfiller",
+    "nameDescription": "Introverted Sensing with Extraverted Thinking",
+    "blurb": "As an ISTJ, your primary mode of living is focused internally, where you take things in via your five senses in a literal, concrete fashion. Your secondary mode is external, where you deal with things rationally and logically."
+  },
+  {
+    "type": "ISTP",
+    "name": "Introverted Sensing Thinking Perceiving",
+    "epithet": "The Mechanic",
+    "nameDescription": "Introverted Thinking with Extraverted Sensing",
+    "blurb": "As an ISTP, your primary mode of living is focused internally, where you deal with things rationally and logically. Your secondary mode is external, where you take things in via your five senses in a literal, concrete fashion."
+  }
+]

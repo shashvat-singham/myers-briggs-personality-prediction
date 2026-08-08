@@ -1,0 +1,2802 @@
+[
+  {
+    "no": 1,
+    "question": "At a party do you:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "Interact with many, including strangers"
+      },
+      {
+        "score": "I",
+        "answer": "Interact with a few, known to you"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Interact with many, including strangers",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Interact with many, including strangers",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Interact with a few, known to you",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Interact with a few, known to you",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 2,
+    "question": "Are you more:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "Realistic than speculative"
+      },
+      {
+        "score": "N",
+        "answer": "Speculative than realistic"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Realistic than speculative",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Realistic than speculative",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Speculative than realistic",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Speculative than realistic",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 3,
+    "question": "Is it worse to:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "Have your “head in the clouds”"
+      },
+      {
+        "score": "N",
+        "answer": "Be “in a rut”"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Have your “head in the clouds”",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Have your “head in the clouds”",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Be “in a rut”",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Be “in a rut”",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 4,
+    "question": "Are you more impressed by:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "Principles"
+      },
+      {
+        "score": "F",
+        "answer": "Emotions"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Principles",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Principles",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Emotions",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Emotions",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 5,
+    "question": "Are more drawn toward the:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "Convincing"
+      },
+      {
+        "score": "F",
+        "answer": "Touching"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Convincing",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Convincing",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Touching",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Touching",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 6,
+    "question": "Do you prefer to work:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "To deadlines"
+      },
+      {
+        "score": "P",
+        "answer": "Just “whenever”"
+      }
+    ],
+    "options": [
+      {
+        "answer": "To deadlines",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "To deadlines",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Just “whenever”",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Just “whenever”",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 7,
+    "question": "Do you tend to choose:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "Rather carefully"
+      },
+      {
+        "score": "P",
+        "answer": "Somewhat impulsively"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Rather carefully",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Rather carefully",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Somewhat impulsively",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Somewhat impulsively",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 8,
+    "question": "At parties do you:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "Stay late, with increasing energy"
+      },
+      {
+        "score": "I",
+        "answer": "Leave early with decreased energy"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Stay late, with increasing energy",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Stay late, with increasing energy",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Leave early with decreased energy",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Leave early with decreased energy",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 9,
+    "question": "Are you more attracted to:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "Sensible people"
+      },
+      {
+        "score": "N",
+        "answer": "Imaginative people"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Sensible people",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Sensible people",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Imaginative people",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Imaginative people",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 10,
+    "question": "Are you more interested in:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "What is actual"
+      },
+      {
+        "score": "N",
+        "answer": "What is possible"
+      }
+    ],
+    "options": [
+      {
+        "answer": "What is actual",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "What is actual",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "What is possible",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "What is possible",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 11,
+    "question": "In judging others are you more swayed by:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "Laws than circumstances"
+      },
+      {
+        "score": "F",
+        "answer": "Circumstances than laws"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Laws than circumstances",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Laws than circumstances",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Circumstances than laws",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Circumstances than laws",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 12,
+    "question": "In approaching others is your inclination to be somewhat:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "Objective"
+      },
+      {
+        "score": "F",
+        "answer": "Personal"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Objective",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Objective",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Personal",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Personal",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 13,
+    "question": "Are you more:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "Punctual"
+      },
+      {
+        "score": "P",
+        "answer": "Leisurely"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Punctual",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Punctual",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Leisurely",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Leisurely",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 14,
+    "question": "Does it bother you more having things:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "Incomplete"
+      },
+      {
+        "score": "P",
+        "answer": "Completed"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Incomplete",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Incomplete",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Completed",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Completed",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 15,
+    "question": "In your social groups do you:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "Keep abreast of other’s happenings"
+      },
+      {
+        "score": "I",
+        "answer": "Get behind on the news"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Keep abreast of other’s happenings",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Keep abreast of other’s happenings",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Get behind on the news",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Get behind on the news",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 16,
+    "question": "In doing ordinary things are you more likely to:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "Do it the usual way"
+      },
+      {
+        "score": "N",
+        "answer": "Do it your own way"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Do it the usual way",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Do it the usual way",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Do it your own way",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Do it your own way",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 17,
+    "question": "Writers should:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "“Say what they mean and mean what they say”"
+      },
+      {
+        "score": "N",
+        "answer": "Express things more by use of analogy"
+      }
+    ],
+    "options": [
+      {
+        "answer": "“Say what they mean and mean what they say”",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "“Say what they mean and mean what they say”",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Express things more by use of analogy",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Express things more by use of analogy",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 18,
+    "question": "Which appeals to you more:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "Consistency of thought"
+      },
+      {
+        "score": "F",
+        "answer": "Harmonious human relationships"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Consistency of thought",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Consistency of thought",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Harmonious human relationships",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Harmonious human relationships",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 19,
+    "question": "Are you more comfortable in making:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "Logical judgments"
+      },
+      {
+        "score": "F",
+        "answer": "Value judgments"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Logical judgments",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Logical judgments",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Value judgments",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Value judgments",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 20,
+    "question": "Do you want things:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "Settled and decided"
+      },
+      {
+        "score": "P",
+        "answer": "Unsettled and undecided"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Settled and decided",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Settled and decided",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Unsettled and undecided",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Unsettled and undecided",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 21,
+    "question": "Would you say you are more:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "Serious and determined"
+      },
+      {
+        "score": "P",
+        "answer": "Easy-going"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Serious and determined",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Serious and determined",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Easy-going",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Easy-going",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 22,
+    "question": "In phoning do you:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "Rarely question that it will all be said"
+      },
+      {
+        "score": "I",
+        "answer": "Rehearse what you’ll say"
+      }
+    ],
+    "options": [
+      {
+        "answer": "Rarely question that it will all be said",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "Rarely question that it will all be said",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Rehearse what you’ll say",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Rehearse what you’ll say",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 23,
+    "question": "Facts:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "“Speak for themselves”"
+      },
+      {
+        "score": "N",
+        "answer": "Illustrate principles"
+      }
+    ],
+    "options": [
+      {
+        "answer": "“Speak for themselves”",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "“Speak for themselves”",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Illustrate principles",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "Illustrate principles",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 24,
+    "question": "Are visionaries:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "somewhat annoying"
+      },
+      {
+        "score": "N",
+        "answer": "rather fascinating"
+      }
+    ],
+    "options": [
+      {
+        "answer": "somewhat annoying",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "somewhat annoying",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "rather fascinating",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "rather fascinating",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 25,
+    "question": "Are you more often:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "a cool-headed person"
+      },
+      {
+        "score": "F",
+        "answer": "a warm-hearted person"
+      }
+    ],
+    "options": [
+      {
+        "answer": "a cool-headed person",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "a cool-headed person",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a warm-hearted person",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a warm-hearted person",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 26,
+    "question": "Is it worse to be:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "unjust"
+      },
+      {
+        "score": "F",
+        "answer": "merciless"
+      }
+    ],
+    "options": [
+      {
+        "answer": "unjust",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "unjust",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "merciless",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "merciless",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 27,
+    "question": "Should one usually let events occur:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "by careful selection and choice"
+      },
+      {
+        "score": "P",
+        "answer": "randomly and by chance"
+      }
+    ],
+    "options": [
+      {
+        "answer": "by careful selection and choice",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "by careful selection and choice",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "randomly and by chance",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "randomly and by chance",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 28,
+    "question": "Do you feel better about:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "having purchased"
+      },
+      {
+        "score": "P",
+        "answer": "having the option to buy"
+      }
+    ],
+    "options": [
+      {
+        "answer": "having purchased",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "having purchased",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "having the option to buy",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "having the option to buy",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 29,
+    "question": "In company do you:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "initiate conversation"
+      },
+      {
+        "score": "I",
+        "answer": "wait to be approached"
+      }
+    ],
+    "options": [
+      {
+        "answer": "initiate conversation",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "initiate conversation",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "wait to be approached",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "wait to be approached",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 30,
+    "question": "Common sense is:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "rarely questionable"
+      },
+      {
+        "score": "N",
+        "answer": "frequently questionable"
+      }
+    ],
+    "options": [
+      {
+        "answer": "rarely questionable",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "rarely questionable",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "frequently questionable",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "frequently questionable",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 31,
+    "question": "Children often do not:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "make themselves useful enough"
+      },
+      {
+        "score": "N",
+        "answer": "exercise their fantasy enough"
+      }
+    ],
+    "options": [
+      {
+        "answer": "make themselves useful enough",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "make themselves useful enough",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "exercise their fantasy enough",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "exercise their fantasy enough",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 32,
+    "question": "In making decisions do you feel more comfortable with:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "standards"
+      },
+      {
+        "score": "F",
+        "answer": "feelings"
+      }
+    ],
+    "options": [
+      {
+        "answer": "standards",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "standards",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "feelings",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "feelings",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 33,
+    "question": "Are you more:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "firm than gentle"
+      },
+      {
+        "score": "F",
+        "answer": "gentle than firm"
+      }
+    ],
+    "options": [
+      {
+        "answer": "firm than gentle",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "firm than gentle",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "gentle than firm",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "gentle than firm",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 34,
+    "question": "Which is more admirable:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "the ability to organize and be methodical"
+      },
+      {
+        "score": "P",
+        "answer": "the ability to adapt and make do"
+      }
+    ],
+    "options": [
+      {
+        "answer": "the ability to organize and be methodical",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "the ability to organize and be methodical",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "the ability to adapt and make do",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "the ability to adapt and make do",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 35,
+    "question": "Do you put more value on:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "infinite"
+      },
+      {
+        "score": "P",
+        "answer": "open-minded"
+      }
+    ],
+    "options": [
+      {
+        "answer": "infinite",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "infinite",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "open-minded",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "open-minded",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 36,
+    "question": "Does new and non-routine interaction with others:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "stimulate and energize you"
+      },
+      {
+        "score": "I",
+        "answer": "tax your reserves"
+      }
+    ],
+    "options": [
+      {
+        "answer": "stimulate and energize you",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "stimulate and energize you",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "tax your reserves",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "tax your reserves",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 37,
+    "question": "Are you more frequently:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "a practical sort of person"
+      },
+      {
+        "score": "N",
+        "answer": "a fanciful sort of person"
+      }
+    ],
+    "options": [
+      {
+        "answer": "a practical sort of person",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "a practical sort of person",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a fanciful sort of person",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a fanciful sort of person",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 38,
+    "question": "Are you more likely to:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "see how others are useful"
+      },
+      {
+        "score": "N",
+        "answer": "see how others see"
+      }
+    ],
+    "options": [
+      {
+        "answer": "see how others are useful",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "see how others are useful",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "see how others see",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "see how others see",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 39,
+    "question": "Which is more satisfying:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "to discuss an issue thoroughly"
+      },
+      {
+        "score": "F",
+        "answer": "to arrive at agreement on an issue"
+      }
+    ],
+    "options": [
+      {
+        "answer": "to discuss an issue thoroughly",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "to discuss an issue thoroughly",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "to arrive at agreement on an issue",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "to arrive at agreement on an issue",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 40,
+    "question": "Which rules you more:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "your head"
+      },
+      {
+        "score": "F",
+        "answer": "your heart"
+      }
+    ],
+    "options": [
+      {
+        "answer": "your head",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "your head",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "your heart",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "your heart",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 41,
+    "question": "Are you more comfortable with work that is:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "contracted"
+      },
+      {
+        "score": "P",
+        "answer": "done on a casual basis"
+      }
+    ],
+    "options": [
+      {
+        "answer": "contracted",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "contracted",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "done on a casual basis",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "done on a casual basis",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 42,
+    "question": "Do you tend to look for:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "the orderly"
+      },
+      {
+        "score": "P",
+        "answer": "whatever turns up"
+      }
+    ],
+    "options": [
+      {
+        "answer": "the orderly",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "the orderly",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "whatever turns up",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "whatever turns up",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 43,
+    "question": "Do you prefer:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "many friends with brief contact"
+      },
+      {
+        "score": "I",
+        "answer": "a few friends with more lengthy contact"
+      }
+    ],
+    "options": [
+      {
+        "answer": "many friends with brief contact",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "many friends with brief contact",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a few friends with more lengthy contact",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a few friends with more lengthy contact",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 44,
+    "question": "Do you go more by:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "facts"
+      },
+      {
+        "score": "N",
+        "answer": "principles"
+      }
+    ],
+    "options": [
+      {
+        "answer": "facts",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "facts",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "principles",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "principles",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 45,
+    "question": "Are you more interested in:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "production and distribution"
+      },
+      {
+        "score": "N",
+        "answer": "design and research"
+      }
+    ],
+    "options": [
+      {
+        "answer": "production and distribution",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "production and distribution",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "design and research",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "design and research",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 46,
+    "question": "Which is more of a compliment:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "“There is a very logical person”"
+      },
+      {
+        "score": "F",
+        "answer": "“There is a very sentimental person”"
+      }
+    ],
+    "options": [
+      {
+        "answer": "“There is a very logical person”",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "“There is a very logical person”",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "“There is a very sentimental person”",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "“There is a very sentimental person”",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 47,
+    "question": "Do you value in yourself more that you are:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "unwavering"
+      },
+      {
+        "score": "F",
+        "answer": "devoted"
+      }
+    ],
+    "options": [
+      {
+        "answer": "unwavering",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "unwavering",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "devoted",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "devoted",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 48,
+    "question": "Do you more often prefer the:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "final and unalterable statement"
+      },
+      {
+        "score": "P",
+        "answer": "tentative and preliminary statement"
+      }
+    ],
+    "options": [
+      {
+        "answer": "final and unalterable statement",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "final and unalterable statement",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "tentative and preliminary statement",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "tentative and preliminary statement",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 49,
+    "question": "Are you more comfortable:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "after a decision"
+      },
+      {
+        "score": "P",
+        "answer": "before a decision"
+      }
+    ],
+    "options": [
+      {
+        "answer": "after a decision",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "after a decision",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "before a decision",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "before a decision",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 50,
+    "question": "Do you:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "speak easily and at length with strangers"
+      },
+      {
+        "score": "I",
+        "answer": "find little to say to strangers"
+      }
+    ],
+    "options": [
+      {
+        "answer": "speak easily and at length with strangers",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "speak easily and at length with strangers",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "find little to say to strangers",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "find little to say to strangers",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 51,
+    "question": "Are you more likely to trust your:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "experience"
+      },
+      {
+        "score": "N",
+        "answer": "hunch"
+      }
+    ],
+    "options": [
+      {
+        "answer": "experience",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "experience",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "hunch",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "hunch",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 52,
+    "question": "Do you feel:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "more practical than ingenious"
+      },
+      {
+        "score": "N",
+        "answer": "more ingenious than practical"
+      }
+    ],
+    "options": [
+      {
+        "answer": "more practical than ingenious",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "more practical than ingenious",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "more ingenious than practical",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "more ingenious than practical",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 53,
+    "question": "Which person is more to be complimented – one of:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "clear reason"
+      },
+      {
+        "score": "F",
+        "answer": "strong feeling"
+      }
+    ],
+    "options": [
+      {
+        "answer": "clear reason",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "clear reason",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "strong feeling",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "strong feeling",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 54,
+    "question": "Are you inclined more to be:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "fair-minded"
+      },
+      {
+        "score": "F",
+        "answer": "sympathetic"
+      }
+    ],
+    "options": [
+      {
+        "answer": "fair-minded",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "fair-minded",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "sympathetic",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "sympathetic",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 55,
+    "question": "Is it preferable mostly to:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "make sure things are arranged"
+      },
+      {
+        "score": "P",
+        "answer": "just let things happen"
+      }
+    ],
+    "options": [
+      {
+        "answer": "make sure things are arranged",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "make sure things are arranged",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "just let things happen",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "just let things happen",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 56,
+    "question": "In relationships should most things be:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "re-negotiable"
+      },
+      {
+        "score": "P",
+        "answer": "random and circumstantial"
+      }
+    ],
+    "options": [
+      {
+        "answer": "re-negotiable",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "re-negotiable",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "random and circumstantial",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "random and circumstantial",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 57,
+    "question": "When the phone rings do you:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "hasten to get to it first"
+      },
+      {
+        "score": "I",
+        "answer": "hope someone else will answer"
+      }
+    ],
+    "options": [
+      {
+        "answer": "hasten to get to it first",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "hasten to get to it first",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "hope someone else will answer",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "hope someone else will answer",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 58,
+    "question": "Do you prize more in yourself:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "a strong sense of reality"
+      },
+      {
+        "score": "N",
+        "answer": "a vivid imagination"
+      }
+    ],
+    "options": [
+      {
+        "answer": "a strong sense of reality",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "a strong sense of reality",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a vivid imagination",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "a vivid imagination",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 59,
+    "question": "Are you drawn more to:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "fundamentals"
+      },
+      {
+        "score": "N",
+        "answer": "overtones"
+      }
+    ],
+    "options": [
+      {
+        "answer": "fundamentals",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "fundamentals",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "overtones",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "overtones",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 60,
+    "question": "Which seems the greater error:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "to be too passionate"
+      },
+      {
+        "score": "F",
+        "answer": "to be too objective"
+      }
+    ],
+    "options": [
+      {
+        "answer": "to be too passionate",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "to be too passionate",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "to be too objective",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "to be too objective",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 61,
+    "question": "Do you see yourself as basically:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "hard-headed"
+      },
+      {
+        "score": "F",
+        "answer": "soft-hearted"
+      }
+    ],
+    "options": [
+      {
+        "answer": "hard-headed",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "hard-headed",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "soft-hearted",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "soft-hearted",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 62,
+    "question": "Which situation appeals to you more:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "the structured and scheduled"
+      },
+      {
+        "score": "P",
+        "answer": "the unstructured and unscheduled"
+      }
+    ],
+    "options": [
+      {
+        "answer": "the structured and scheduled",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "the structured and scheduled",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "the unstructured and unscheduled",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "the unstructured and unscheduled",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 63,
+    "question": "Are you a person that is more:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "routinized than whimsical"
+      },
+      {
+        "score": "P",
+        "answer": "whimsical than routinized"
+      }
+    ],
+    "options": [
+      {
+        "answer": "routinized than whimsical",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "routinized than whimsical",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "whimsical than routinized",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "whimsical than routinized",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 64,
+    "question": "Are you more inclined to be:",
+    "poles": [
+      {
+        "score": "E",
+        "answer": "easy to approach"
+      },
+      {
+        "score": "I",
+        "answer": "somewhat reserved"
+      }
+    ],
+    "options": [
+      {
+        "answer": "easy to approach",
+        "score": "E",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "easy to approach",
+        "score": "E",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "somewhat reserved",
+        "score": "I",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "somewhat reserved",
+        "score": "I",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 65,
+    "question": "In writings do you prefer:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "the more literal"
+      },
+      {
+        "score": "N",
+        "answer": "the more figurative"
+      }
+    ],
+    "options": [
+      {
+        "answer": "the more literal",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "the more literal",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "the more figurative",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "the more figurative",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 66,
+    "question": "Is it harder for you to:",
+    "poles": [
+      {
+        "score": "S",
+        "answer": "identify with others"
+      },
+      {
+        "score": "N",
+        "answer": "utilize others"
+      }
+    ],
+    "options": [
+      {
+        "answer": "identify with others",
+        "score": "S",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "identify with others",
+        "score": "S",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "utilize others",
+        "score": "N",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "utilize others",
+        "score": "N",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 67,
+    "question": "Which do you wish more for yourself:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "clarity of reason"
+      },
+      {
+        "score": "F",
+        "answer": "strength of compassion"
+      }
+    ],
+    "options": [
+      {
+        "answer": "clarity of reason",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "clarity of reason",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "strength of compassion",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "strength of compassion",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 68,
+    "question": "Which is the greater fault:",
+    "poles": [
+      {
+        "score": "T",
+        "answer": "being indiscriminate"
+      },
+      {
+        "score": "F",
+        "answer": "being critical"
+      }
+    ],
+    "options": [
+      {
+        "answer": "being indiscriminate",
+        "score": "T",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "being indiscriminate",
+        "score": "T",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "being critical",
+        "score": "F",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "being critical",
+        "score": "F",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 69,
+    "question": "Do you prefer the:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "planned event"
+      },
+      {
+        "score": "P",
+        "answer": "unplanned event"
+      }
+    ],
+    "options": [
+      {
+        "answer": "planned event",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "planned event",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "unplanned event",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "unplanned event",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  },
+  {
+    "no": 70,
+    "question": "Do you tend to be more:",
+    "poles": [
+      {
+        "score": "J",
+        "answer": "deliberate than spontaneous"
+      },
+      {
+        "score": "P",
+        "answer": "spontaneous than deliberate"
+      }
+    ],
+    "options": [
+      {
+        "answer": "deliberate than spontaneous",
+        "score": "J",
+        "weight": 2,
+        "intensity": "Strongly"
+      },
+      {
+        "answer": "deliberate than spontaneous",
+        "score": "J",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "spontaneous than deliberate",
+        "score": "P",
+        "weight": 1,
+        "intensity": "Slightly"
+      },
+      {
+        "answer": "spontaneous than deliberate",
+        "score": "P",
+        "weight": 2,
+        "intensity": "Strongly"
+      }
+    ]
+  }
+]

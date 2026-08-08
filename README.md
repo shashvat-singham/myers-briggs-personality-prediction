@@ -10,7 +10,23 @@ Indian Institute of Technology, Kanpur - 2023
 
 The purpose of this project is to predict personality types as one of the sixteen categories of Myers Briggs personality types (MBTI) based on the correlation between people's writing styles and their psychological personalities. We believe that social media gives people the platform to express themselves freely and openly and hence those posts can be an indicator of their personality type.  
 We acknowledge the fact that all personality types are equal. 
-You can visit my this project deployed site: https://shashvat-mbti.netlify.app/
+You can visit this project's deployed site: **https://shashvat-mbti.vercel.app**
+
+## Two applications in this repository
+
+| Path | What it is | Deployed |
+| --- | --- | --- |
+| repository root | The original research project: the trained scikit-learn pipelines, the notebooks behind them, and a Flask service that predicts a type from a sample of someone's writing. | Container (see [DEPLOYMENT.md](DEPLOYMENT.md)) |
+| [`web/`](web) | **Sixteen** — the questionnaire application. A 70-item graded forced-choice instrument in Next.js, with Firebase Authentication, a per-account result history, and the full profile for each of the sixteen types. | [shashvat-mbti.vercel.app](https://shashvat-mbti.vercel.app) |
+
+The two are independent front doors onto the same idea and share the one
+Firebase project (`mbpp-7347c`): the Flask service writes `/predictions` and
+`/stats` through the Admin SDK, while the questionnaire writes
+`/users/<uid>/results` as the signed-in user. `database.rules.json` at the root
+covers both — deny by default, with each account granted access only to its own
+results. See [`web/README.md`](web/README.md) for that app's setup, and
+[`/methodology`](https://shashvat-mbti.vercel.app/methodology) for how the
+instrument is scored and what it does not support.
 
 ## Tools & Modules Used
 
