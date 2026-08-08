@@ -70,8 +70,10 @@ export function LoginPanel() {
         const adopted = await adoptPendingResult(user.uid);
         if (adopted) destination = `/result/${adopted}`;
       } catch {
-        // A failed adoption must not strand the user on the login screen; the
-        // local copy stays put and can be retried from the result page.
+        // A failed adoption must not strand the user on the login screen, but
+        // it must not vanish either: send them to the local result, which shows
+        // the reason and offers a retry rather than silently looking unsaved.
+        if (readPendingResult()) destination = "/result/local";
       }
       if (!cancelled) router.replace(destination);
     })();

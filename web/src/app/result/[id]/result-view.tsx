@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { AlertCircle, Clock, RefreshCw, Save, Sparkles } from "lucide-react";
 import { AxisBars } from "@/components/axis-bars";
 import { TypeProfileView } from "@/components/type-profile";
-import { ButtonLink, Card, Eyebrow, Spinner, cn } from "@/components/ui";
+import { Button, ButtonLink, Card, Eyebrow, Spinner, cn } from "@/components/ui";
 import { useAuth } from "@/lib/auth-context";
-import { getResult, readPendingResult } from "@/lib/results";
+import { adoptPendingResult, getResult, readPendingResult } from "@/lib/results";
 import { formatDuration, TEMPERAMENT_STYLE, temperament, typeStyle } from "@/lib/scoring";
 import type { TestResult, TypeProfile } from "@/lib/types";
 
@@ -22,8 +23,33 @@ const DATE = new Intl.DateTimeFormat("en-GB", {
 });
 
 export function ResultView({ id }: { id: string }) {
+  const router = useRouter();
   const { user, loading: authLoading, configured } = useAuth();
   const [state, setState] = useState<State>({ status: "loading" });
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+
+  /** Move the browser-local result into the signed-in account. */
+  const save = useCallback(async () => {
+    if (!user || saving) return;
+    setSaving(true);
+    setSaveError(null);
+    try {
+      const adopted = await adoptPendingResult(user.uid);
+      if (!adopted) throw new Error("nothing pending");
+      router.replace(`/result/${adopted}`);
+    } catch (error) {
+      // The common cause is a database rule that rejects the write, which is
+      // invisible unless it is said out loud — the old code swallowed it.
+      const message = String((error as Error)?.message ?? error);
+      setSaveError(
+        /permission|denied/i.test(message)
+          ? "The database refused the write. Publish the rules from database.rules.json for this project, then try again."
+          : "Couldn't save this result. Check your connection and try again.",
+      );
+      setSaving(false);
+    }
+  }, [user, saving, router]);
 
   useEffect(() => {
     // `local` results live in this browser only and need no auth; everything
@@ -149,7 +175,11 @@ export function ResultView({ id }: { id: string }) {
         </Card>
       </div>
 
-      {/* --------------------------------------------------- save prompt --- */}
+      {/* --------------------------------------------------- save prompt ---
+          Signed in, the save happens right here. Sending an already-signed-in
+          user to /login was the old behaviour and it looked like a dead button:
+          the login screen adopted the result, and on any failure bounced
+          straight back to this page with the same banner and nothing said. */}
       {local && configured && (
         <Card className="mt-8 flex flex-col items-start gap-4 border-violet-400/25 bg-violet-500/8 p-6 sm:flex-row sm:items-center">
           <span className="grid size-10 shrink-0 place-items-center rounded-2xl bg-white/8 text-violet-300">
@@ -158,11 +188,26 @@ export function ResultView({ id }: { id: string }) {
           <div className="flex-1">
             <p className="font-medium">This result isn&apos;t saved yet</p>
             <p className="mt-1 text-sm text-mute">
-              It lives in this browser only. Sign in and it moves to your account, where it can be
-              compared against future attempts.
+              {user
+                ? "It lives in this browser only. Save it to your account and it can be compared against future attempts."
+                : "It lives in this browser only. Sign in and it moves to your account, where it can be compared against future attempts."}
             </p>
+            {saveError && (
+              <p className="mt-2 flex items-start gap-2 text-sm text-rose-200">
+                <AlertCircle className="mt-0.5 size-4 shrink-0" />
+                {saveError}
+              </p>
+            )}
           </div>
-          <ButtonLink href={`/login?next=/result/${id}`}>Save to my account</ButtonLink>
+
+          {user ? (
+            <Button onClick={save} disabled={saving}>
+              {saving ? <Spinner className="size-4" /> : <Save className="size-4" />}
+              Save to my account
+            </Button>
+          ) : (
+            <ButtonLink href={`/login?next=/result/${id}`}>Sign in to save</ButtonLink>
+          )}
         </Card>
       )}
 

@@ -120,8 +120,26 @@ The Firebase values are build args rather than runtime env for the same
 inlining reason; `GEMINI_API_KEY` is server-side and stays runtime-only, so it
 is never baked into the image.
 
-## Attribution
+## Sources and attribution
 
-Items and type profiles come from a freely circulated public questionnaire in
-the Myers–Briggs tradition. This is not the licensed MBTI® instrument and no
-equivalence to it is claimed; MBTI is a trademark of its respective owner.
+Neither the items nor the profile text are original to this project.
+
+| What | Source |
+| --- | --- |
+| The 70 forced-choice items | [Humanmetrics — Jung Typology Test](https://www.humanmetrics.com/personality) |
+| The sixteen type profiles | [The Personality Page](https://www.personalitypage.com/html/ENFJ.html) — description, strengths, relationship patterns, problem areas and ten rules |
+
+The original project linked a university-hosted PDF that has since 404'd and was
+never captured by the Wayback Machine, so it cannot be restored; the two live
+sources above are what the material actually corresponds to, verified
+line-for-line against the profile text shipped in `public/types/`.
+
+Background reading, all linked from [`/methodology`](https://shashvat-mbti.vercel.app/methodology):
+
+- Myers, I. B. & Myers, P. B. — *Gifts Differing: Understanding Personality Type* — <https://openlibrary.org/works/OL3589631W>
+- Jung, C. G. — *Psychological Types* (Collected Works, Vol. 6) — <https://press.princeton.edu/books/paperback/9780691018133/collected-works-of-c-g-jung-volume-6>
+- Pittenger, D. J. (2005) — *Cautionary comments regarding the Myers-Briggs Type Indicator*, Consulting Psychology Journal 57(3), 210–221 — <https://doi.org/10.1037/1065-9293.57.3.210>
+- McCrae, R. R. & Costa, P. T. (1989) — *Reinterpreting the MBTI from the perspective of the five-factor model*, Journal of Personality 57(1), 17–40 — <https://doi.org/10.1111/j.1467-6494.1989.tb00759.x>
+
+This is not the licensed MBTI® instrument and no equivalence to it is claimed;
+MBTI is a trademark of its respective owner.

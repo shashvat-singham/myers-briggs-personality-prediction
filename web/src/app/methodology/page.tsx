@@ -10,23 +10,46 @@ export const metadata: Metadata = {
     "How this instrument is constructed and scored: item counts per dichotomy, the graded forced-choice response format, the weighting scheme, tie handling, and what the result does and doesn't support.",
 };
 
+/** Where the items and the profile text in this application actually came from. */
+const SOURCES = [
+  {
+    title: "The Personality Page — type portraits",
+    href: "https://www.personalitypage.com/html/ENFJ.html",
+    note: "The sixteen profiles rendered on the result page — the description, strengths, relationship patterns, problem areas and ten rules — are reproduced from this source.",
+  },
+  {
+    title: "Humanmetrics — Jung Typology Test",
+    href: "https://www.humanmetrics.com/personality",
+    note: "The public 70-item forced-choice questionnaire this item bank follows, with 10 items on E/I and 20 on each of the other three dichotomies.",
+  },
+];
+
 const REFERENCES = [
   {
     title: "Myers, I. B. & Myers, P. B. — Gifts Differing: Understanding Personality Type",
+    href: "https://openlibrary.org/works/OL3589631W",
     note: "The type framework this instrument operationalises.",
   },
   {
     title: "Jung, C. G. — Psychological Types (Collected Works, Vol. 6)",
+    href: "https://press.princeton.edu/books/paperback/9780691018133/collected-works-of-c-g-jung-volume-6",
     note: "Origin of the attitude and function distinctions behind the four dichotomies.",
   },
   {
     title: "Pittenger, D. J. (2005) — Cautionary comments regarding the Myers-Briggs Type Indicator",
-    note: "Consulting Psychology Journal 57(3). The standard psychometric critique.",
+    href: "https://doi.org/10.1037/1065-9293.57.3.210",
+    note: "Consulting Psychology Journal 57(3), 210–221. The standard psychometric critique.",
   },
   {
     title:
       "McCrae, R. R. & Costa, P. T. (1989) — Reinterpreting the MBTI from the perspective of the Five-Factor Model",
-    note: "Journal of Personality 57(1). Maps the four dichotomies onto FFM dimensions.",
+    href: "https://doi.org/10.1111/j.1467-6494.1989.tb00759.x",
+    note: "Journal of Personality 57(1), 17–40. Maps the four dichotomies onto FFM dimensions.",
+  },
+  {
+    title: "Myers–Briggs Type Indicator — overview and criticism",
+    href: "https://en.wikipedia.org/wiki/Myers%E2%80%93Briggs_Type_Indicator",
+    note: "A general entry point, with the reliability and validity literature collected in one place.",
   },
 ];
 
@@ -250,13 +273,47 @@ strength = 2 × |percent − 50|`}
           </p>
         </section>
 
+        {/* ------------------------------------------------------- sources --- */}
+        <section>
+          <h2 className="text-2xl font-semibold tracking-tight">
+            7. Where the material comes from
+          </h2>
+          <p className="mt-4 leading-relaxed text-mute">
+            Neither the items nor the profile text are original to this project. Both are
+            reproduced from freely circulated public material in the Myers–Briggs tradition, and
+            the sources are named here rather than buried in a footer.
+          </p>
+          <ul className="mt-6 space-y-4">
+            {SOURCES.map((s) => (
+              <li key={s.title} className="border-l-2 border-violet-400/40 pl-4">
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="text-sm leading-relaxed underline decoration-white/25 underline-offset-4 transition hover:text-chalk"
+                >
+                  {s.title} ↗
+                </a>
+                <p className="mt-1 text-sm text-faint">{s.note}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         {/* --------------------------------------------------- references --- */}
         <section>
           <h2 className="text-2xl font-semibold tracking-tight">References</h2>
           <ul className="mt-5 space-y-4">
             {REFERENCES.map((ref) => (
               <li key={ref.title} className="border-l-2 border-white/10 pl-4">
-                <p className="text-sm leading-relaxed">{ref.title}</p>
+                <a
+                  href={ref.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="text-sm leading-relaxed underline decoration-white/20 underline-offset-4 transition hover:text-chalk"
+                >
+                  {ref.title} ↗
+                </a>
                 <p className="mt-1 text-sm text-faint">{ref.note}</p>
               </li>
             ))}
