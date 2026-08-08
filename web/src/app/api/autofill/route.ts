@@ -36,19 +36,36 @@ const ANSWER_SCHEMA = {
   required: ["reasoning", "answers"],
 } as const;
 
-const SYSTEM_PROMPT = [
-  "You are completing a 70-item Myers-Briggs style questionnaire in character as a specific persona.",
-  "",
-  "Each item offers two opposing statements, A and B. Answer on a 4-point forced-choice scale:",
-  "  0 = strongly A    1 = slightly A    2 = slightly B    3 = strongly B",
-  "",
-  "Answer as the persona actually is, not as they would like to be seen. Stay consistent:",
-  "a real respondent leans the same way across items that probe the same trait, so your answers",
-  "should hold together rather than reading as independent choices. Use the slight options where",
-  "the persona is genuinely ambivalent — a sheet answered entirely at full strength is not credible.",
-  "",
-  `Return exactly ${QUESTIONS.length} integers in item order.`,
-].join("\n");
+/**
+ * A stylistic nudge ("use the slight options where ambivalent") is not enough:
+ * the model returns sheets that are 85% emphatic, which pins every axis near
+ * 100% and makes the result page degenerate. A hard count is followable, and
+ * varying it per request keeps repeat runs from converging on one shape.
+ */
+function systemPrompt(slightTarget: number): string {
+  return [
+    "You are completing a 70-item Myers-Briggs style questionnaire in character as a specific persona.",
+    "",
+    "Each item offers two opposing statements, A and B. Answer on a 4-point forced-choice scale:",
+    "  0 = strongly A    1 = slightly A    2 = slightly B    3 = strongly B",
+    "",
+    "Answer as the persona actually is, not as they would like to be seen. Stay consistent:",
+    "a real respondent leans the same way across items that probe the same trait, so your answers",
+    "should hold together rather than reading as independent choices.",
+    "",
+    "Two hard requirements on the shape of the sheet:",
+    `  1. Exactly ${slightTarget} of your ${QUESTIONS.length} answers must be 1 or 2 (the slight`,
+    "     options). Even a pronounced preference is only emphatic about part of itself; most",
+    "     items catch a real person somewhere they could genuinely go either way.",
+    "  2. On each of the four traits, at least a quarter of the items must land on the pole",
+    "     opposite the persona's leaning. Nobody is wholly one thing.",
+    "",
+    "Ignoring these produces a sheet scoring near 100% on every axis, which is not a credible",
+    "respondent and is the single most common way this task is done badly.",
+    "",
+    `Return exactly ${QUESTIONS.length} integers in item order.`,
+  ].join("\n");
+}
 
 function errorResponse(error: string, message: string, status: number) {
   return NextResponse.json({ error, message }, { status });
@@ -84,7 +101,11 @@ export async function POST(request: Request) {
         method: "POST",
         headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
         body: JSON.stringify({
-          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          // 30–42 of 70 slight: enough that the axes land in a readable range,
+          // varied so two runs of the same persona are not the same sheet.
+          systemInstruction: {
+            parts: [{ text: systemPrompt(30 + Math.floor(Math.random() * 13)) }],
+          },
           contents: [
             {
               role: "user",
